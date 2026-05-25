@@ -136,38 +136,140 @@ export function DashboardOverview() {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-12 2xl:gap-8">
         {/* Saúde Fiscal Card */}
-        <div className="col-span-1 xl:col-span-8 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 flex flex-col justify-between">
-          <div className="flex flex-wrap items-start justify-between gap-3 mb-8">
+        <div className={`col-span-1 xl:col-span-8 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 flex flex-col md:flex-row gap-8 justify-between items-center transition-all duration-500 ${
+          indiceVal > 85 ? "border-l-8 border-l-rose-500" :
+          indiceVal >= 70 ? "border-l-8 border-l-amber-500" :
+          "border-l-8 border-l-emerald-500"
+        }`}>
+          {/* Left Info Column */}
+          <div className="flex-1 flex flex-col justify-between h-full space-y-6 w-full">
             <div>
-              <h4 className="text-2xl font-bold text-slate-800 tracking-tight">Saúde Fiscal do Tesouro</h4>
-              <span className="text-sm font-medium text-slate-500">Índice de comprometimento da Receita Própria</span>
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <h4 className="text-xl font-black text-slate-800 tracking-tight">Saúde Fiscal do Tesouro</h4>
+                <div className={`inline-flex items-center gap-1.5 rounded-full py-1 px-3 text-xs font-bold shadow-sm ${alertBgClass}`}>
+                  <span className="relative flex h-2 w-2">
+                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                      indiceVal > 85 ? "bg-rose-400" : indiceVal >= 70 ? "bg-amber-400" : "bg-emerald-400"
+                    }`}></span>
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                      indiceVal > 85 ? "bg-rose-500" : indiceVal >= 70 ? "bg-amber-500" : "bg-emerald-500"
+                    }`}></span>
+                  </span>
+                  <span>{statusText}</span>
+                </div>
+              </div>
+              <p className="text-xs font-semibold text-slate-400">Índice de comprometimento da Receita Própria (Tesouro)</p>
             </div>
-            <div className={`inline-flex rounded-2xl py-1.5 px-4 text-sm font-semibold shadow-sm ${alertBgClass}`}>
-              <span>{statusText}</span>
+
+            <div className="space-y-4">
+              <div>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Índice de Comprometimento</span>
+                <h3 className={`text-6xl font-black tracking-tighter bg-gradient-to-r ${
+                  indiceVal > 85 ? "from-rose-500 to-red-600" : 
+                  indiceVal >= 70 ? "from-amber-500 to-orange-600" : 
+                  "from-emerald-500 to-teal-600"
+                } bg-clip-text text-transparent`}>
+                  {indiceVal.toFixed(1).replace(".", ",")}%
+                </h3>
+              </div>
+
+              <div className={`p-4 rounded-2xl border ${
+                indiceVal > 85 ? "bg-rose-50/40 border-rose-100/60 text-rose-950" : 
+                indiceVal >= 70 ? "bg-amber-50/40 border-amber-100/60 text-amber-950" : 
+                "bg-emerald-50/40 border-emerald-100/60 text-emerald-950"
+              }`}>
+                <p className="text-xs font-bold leading-relaxed">
+                  {explanationText}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-end justify-between gap-6">
-            <div>
-              <h3 className="text-6xl font-extrabold text-slate-800 tracking-tighter">
-                {indiceVal.toFixed(1).replace(".", ",")}%
-              </h3>
-              <p className="mt-4 text-sm font-medium text-slate-500 max-w-md leading-relaxed">
-                {explanationText}
-              </p>
+          {/* Right Gauge Column */}
+          <div className="w-full md:w-[240px] flex flex-col items-center justify-center shrink-0 bg-slate-50/30 border border-slate-100/50 p-5 rounded-3xl shadow-inner w-full">
+            <div className="relative w-full h-[120px] flex items-center justify-center">
+              <svg className="w-full h-full" viewBox="0 0 200 120">
+                <defs>
+                  <linearGradient id="gaugeGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#10B981" />       {/* Verde */}
+                    <stop offset="58%" stopColor="#F59E0B" />      {/* Amarelo */}
+                    <stop offset="70%" stopColor="#F59E0B" />      {/* Amarelo */}
+                    <stop offset="85%" stopColor="#F43F5E" />      {/* Vermelho */}
+                    <stop offset="100%" stopColor="#EF4444" />     {/* Vermelho Escuro */}
+                  </linearGradient>
+                </defs>
+
+                {/* Track de Fundo */}
+                <path
+                  d="M 30 100 A 70 70 0 0 1 170 100"
+                  fill="none"
+                  stroke="#E2E8F0"
+                  strokeWidth="12"
+                  strokeLinecap="round"
+                />
+
+                {/* Arco de Progresso Ativo */}
+                <path
+                  d="M 30 100 A 70 70 0 0 1 170 100"
+                  fill="none"
+                  stroke="url(#gaugeGradient)"
+                  strokeWidth="12"
+                  strokeLinecap="round"
+                  strokeDasharray="219.9"
+                  strokeDashoffset={219.9 - (219.9 * Math.min(indiceVal / 120, 1))}
+                  className="transition-all duration-1000 ease-out"
+                />
+
+                {/* Marcadores de Limite (Ticks) */}
+                {/* 70% marker */}
+                <circle
+                  cx="118.1"
+                  cy="32.4"
+                  r="4.5"
+                  fill={indiceVal >= 70 ? "#F59E0B" : "#CBD5E1"}
+                  stroke="#FFFFFF"
+                  strokeWidth="1.5"
+                  className="transition-colors duration-500"
+                />
+
+                {/* 85% marker */}
+                <circle
+                  cx="142.6"
+                  cy="44.5"
+                  r="4.5"
+                  fill={indiceVal >= 85 ? "#F43F5E" : "#CBD5E1"}
+                  stroke="#FFFFFF"
+                  strokeWidth="1.5"
+                  className="transition-colors duration-500"
+                />
+
+                {/* 100% marker */}
+                <circle
+                  cx="160.6"
+                  cy="65.0"
+                  r="4.5"
+                  fill={indiceVal >= 100 ? "#EF4444" : "#CBD5E1"}
+                  stroke="#FFFFFF"
+                  strokeWidth="1.5"
+                  className="transition-colors duration-500"
+                />
+
+                {/* Rótulos de Texto */}
+                <text x="30" y="115" textAnchor="middle" fontSize="8" fontWeight="bold" fill="#94A3B8">0%</text>
+                <text x="170" y="115" textAnchor="middle" fontSize="8" fontWeight="bold" fill="#94A3B8">120%</text>
+                
+                {/* Texto de Estado Central */}
+                <text x="100" y="95" textAnchor="middle" fontSize="10" fontWeight="black" fill="#475569" className="uppercase tracking-wider">
+                  {indiceVal > 85 ? "Crítico" : indiceVal >= 70 ? "Alerta" : "Saudável"}
+                </text>
+              </svg>
             </div>
 
-            <div className="w-full sm:w-1/3">
-              <div className="flex justify-between text-xs font-medium text-slate-400 mb-2">
-                <span>Equilíbrio</span>
-                <span>Risco Máximo</span>
-              </div>
-              <div className="w-full bg-slate-200/50 rounded-full h-3 overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-1000 ${statusColorClass}`}
-                  style={{ width: `${Math.min(indiceVal, 100)}%` }}
-                />
-              </div>
+            {/* Legenda de Limites */}
+            <div className="flex justify-between w-full text-[9px] font-extrabold text-slate-400 mt-2 border-t border-slate-100/80 pt-2 px-1">
+              <span className="text-emerald-500 font-bold">&lt; 70% Ideal</span>
+              <span className="text-amber-500 font-bold">70%-85% Limite</span>
+              <span className="text-rose-500 font-bold">&gt; 85% Risco</span>
             </div>
           </div>
         </div>
