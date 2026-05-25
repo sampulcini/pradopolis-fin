@@ -33,7 +33,11 @@ import {
   X,
   UserCheck,
   Coffee,
-  Activity
+  Activity,
+  ArrowUpDown,
+  ChevronUp,
+  ChevronDown,
+  XCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import despesasFixasDataRaw from "@/data/despesas_fixas_data.json";
@@ -131,6 +135,10 @@ export function DespesasFixas() {
   const [selectedCategoria, setSelectedCategoria] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' | null }>({
+    key: "",
+    direction: null
+  });
   
   const itemsPerPage = 10;
 
@@ -161,6 +169,55 @@ export function DespesasFixas() {
     });
   }, [contratos, searchTerm, selectedSetor, selectedCategoria]);
 
+  // Totals of filtered items
+  const filteredTotals = useMemo(() => {
+    return filteredContracts.reduce((acc, curr) => {
+      acc.valor_mensal += curr.valor_mensal;
+      acc.valor_anual += curr.valor_anual;
+      return acc;
+    }, { valor_mensal: 0, valor_anual: 0 });
+  }, [filteredContracts]);
+
+  // Sorting logic
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' | null = 'asc';
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === 'asc') {
+        direction = 'desc';
+      } else if (sortConfig.direction === 'desc') {
+        direction = null;
+      } else {
+        direction = 'asc';
+      }
+    }
+    setSortConfig({ key: direction ? key : "", direction });
+  };
+
+  const sortedContracts = useMemo(() => {
+    const items = [...filteredContracts];
+    if (sortConfig.key && sortConfig.direction) {
+      items.sort((a, b) => {
+        const valA = a[sortConfig.key as keyof typeof a];
+        const valB = b[sortConfig.key as keyof typeof b];
+
+        if (typeof valA === 'string' && typeof valB === 'string') {
+          const numA = Number(valA);
+          const numB = Number(valB);
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return sortConfig.direction === 'asc' ? numA - numB : numB - numA;
+          }
+          return sortConfig.direction === 'asc' 
+            ? valA.localeCompare(valB, "pt-BR") 
+            : valB.localeCompare(valA, "pt-BR");
+        } else if (typeof valA === 'number' && typeof valB === 'number') {
+          return sortConfig.direction === 'asc' ? valA - valB : valB - valA;
+        }
+        return 0;
+      });
+    }
+    return items;
+  }, [filteredContracts, sortConfig]);
+
   // Reset page on filters change
   React.useEffect(() => {
     setCurrentPage(1);
@@ -170,8 +227,48 @@ export function DespesasFixas() {
   const totalPages = Math.ceil(filteredContracts.length / itemsPerPage) || 1;
   const paginatedContracts = useMemo(() => {
     const startIdx = (currentPage - 1) * itemsPerPage;
-    return filteredContracts.slice(startIdx, startIdx + itemsPerPage);
-  }, [filteredContracts, currentPage]);
+    return sortedContracts.slice(startIdx, startIdx + itemsPerPage);
+  }, [sortedContracts, currentPage]);
+
+  // Helper to render sortable headers
+  const renderSortableHeader = (label: string, sortKey: string, align: 'left' | 'right' | 'center' = 'left') => {
+    const isSorted = sortConfig.key === sortKey;
+    const justifyClass = align === 'right' ? 'justify-end' : align === 'center' ? 'justify-center' : 'justify-start';
+    const textAlignClass = align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left';
+    
+    return (
+      <th 
+        onClick={() => handleSort(sortKey)} 
+        className={`py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 hover:text-slate-700 transition-colors select-none group ${textAlignClass}`}
+      >
+        <div className={`flex items-center gap-1.5 ${justifyClass}`}>
+          {align === 'right' && (
+            <span className="text-slate-400 group-hover:text-slate-600 transition-colors shrink-0">
+              {!isSorted ? (
+                <ArrowUpDown className="w-3 h-3 opacity-40 group-hover:opacity-100" />
+              ) : sortConfig.direction === 'asc' ? (
+                <ChevronUp className="w-3 h-3 text-rose-500" />
+              ) : (
+                <ChevronDown className="w-3 h-3 text-rose-500" />
+              )}
+            </span>
+          )}
+          <span>{label}</span>
+          {align !== 'right' && (
+            <span className="text-slate-400 group-hover:text-slate-600 transition-colors shrink-0">
+              {!isSorted ? (
+                <ArrowUpDown className="w-3 h-3 opacity-40 group-hover:opacity-100" />
+              ) : sortConfig.direction === 'asc' ? (
+                <ChevronUp className="w-3 h-3 text-rose-500" />
+              ) : (
+                <ChevronDown className="w-3 h-3 text-rose-500" />
+              )}
+            </span>
+          )}
+        </div>
+      </th>
+    );
+  };
 
   // Donut Chart Data (Fixed Expenses Composition)
   const donutChartData = useMemo(() => {
@@ -494,6 +591,21 @@ export function DespesasFixas() {
                 ))}
               </select>
             </div>
+
+            {/* Clear Filters Button */}
+            {(searchTerm !== "" || selectedSetor !== "all" || selectedCategoria !== "all") && (
+              <button
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedSetor("all");
+                  setSelectedCategoria("all");
+                }}
+                className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-bold rounded-2xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 transition-all shadow-sm cursor-pointer"
+              >
+                <XCircle className="w-4 h-4 shrink-0" />
+                Limpar Filtros
+              </button>
+            )}
           </div>
         </div>
 
@@ -502,13 +614,13 @@ export function DespesasFixas() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200/60">
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-24">Empenho</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-24">Contrato</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Fornecedor / Contratado</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Setor / Secretaria</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Tipo de Despesa</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Valor Mensal</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Valor Anual</th>
+                {renderSortableHeader("Empenho", "empenho", "left")}
+                {renderSortableHeader("Contrato", "contrato", "left")}
+                {renderSortableHeader("Fornecedor / Contratado", "fornecedor", "left")}
+                {renderSortableHeader("Setor / Secretaria", "setor", "left")}
+                {renderSortableHeader("Tipo de Despesa", "categoria", "left")}
+                {renderSortableHeader("Valor Mensal", "valor_mensal", "right")}
+                {renderSortableHeader("Valor Anual", "valor_anual", "right")}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -568,6 +680,21 @@ export function DespesasFixas() {
                 )}
               </AnimatePresence>
             </tbody>
+            {filteredContracts.length > 0 && (
+              <tfoot>
+                <tr className="bg-slate-50/80 border-t-2 border-slate-200/80 font-extrabold text-slate-800">
+                  <td colSpan={5} className="py-3 px-4 text-xs font-black uppercase text-slate-500 tracking-wider">
+                    Total Filtrado ({filteredContracts.length} Contratos)
+                  </td>
+                  <td className="py-3 px-4 text-right text-sm">
+                    {formatBRL(filteredTotals.valor_mensal)}
+                  </td>
+                  <td className="py-3 px-4 text-right text-sm">
+                    {formatBRL(filteredTotals.valor_anual)}
+                  </td>
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
 

@@ -28,7 +28,11 @@ import {
   ChevronRight,
   TrendingDown,
   PieChart as PieIcon,
-  HelpCircle
+  HelpCircle,
+  ArrowUpDown,
+  ChevronUp,
+  ChevronDown,
+  XCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import orcamentoDataRaw from "@/data/orcamento_data.json";
@@ -141,6 +145,10 @@ export function OrcamentoDashboard() {
   const [selectedCategoria, setSelectedCategoria] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' | null }>({
+    key: "",
+    direction: null
+  });
   const itemsPerPage = 10;
 
   // Memoized unique selectors for dropdowns
@@ -174,6 +182,68 @@ export function OrcamentoDashboard() {
     });
   }, [fichas, searchTerm, selectedSetor, selectedCategoria, selectedStatus]);
 
+  // Totals of filtered items
+  const filteredTotals = useMemo(() => {
+    return filteredFichas.reduce((acc, curr) => {
+      acc.dotacao += curr.dotacao;
+      acc.empenhado += curr.empenhado;
+      acc.saldo += curr.saldo;
+      return acc;
+    }, { dotacao: 0, empenhado: 0, saldo: 0 });
+  }, [filteredFichas]);
+
+  const filteredPercent = useMemo(() => {
+    return filteredTotals.dotacao > 0 ? (filteredTotals.empenhado / filteredTotals.dotacao) * 100 : 0;
+  }, [filteredTotals]);
+
+  // Sorting logic
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' | null = 'asc';
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === 'asc') {
+        direction = 'desc';
+      } else if (sortConfig.direction === 'desc') {
+        direction = null;
+      } else {
+        direction = 'asc';
+      }
+    }
+    setSortConfig({ key: direction ? key : "", direction });
+  };
+
+  const sortedFichas = useMemo(() => {
+    const items = [...filteredFichas];
+    if (sortConfig.key && sortConfig.direction) {
+      items.sort((a, b) => {
+        let valA = a[sortConfig.key as keyof typeof a];
+        let valB = b[sortConfig.key as keyof typeof b];
+
+        // Status order map if sorting by status
+        if (sortConfig.key === 'status') {
+          const statusOrder = { critical: 3, warning: 2, normal: 1 };
+          const orderA = statusOrder[valA as keyof typeof statusOrder] || 0;
+          const orderB = statusOrder[valB as keyof typeof statusOrder] || 0;
+          return sortConfig.direction === 'asc' ? orderA - orderB : orderB - orderA;
+        }
+
+        if (typeof valA === 'string' && typeof valB === 'string') {
+          const numA = Number(valA);
+          const numB = Number(valB);
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return sortConfig.direction === 'asc' ? numA - numB : numB - numA;
+          }
+          return sortConfig.direction === 'asc' 
+            ? valA.localeCompare(valB, "pt-BR") 
+            : valB.localeCompare(valA, "pt-BR");
+        } else if (typeof valA === 'number' && typeof valB === 'number') {
+          return sortConfig.direction === 'asc' ? valA - valB : valB - valA;
+        }
+        return 0;
+      });
+    }
+    return items;
+  }, [filteredFichas, sortConfig]);
+
   // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
@@ -183,8 +253,48 @@ export function OrcamentoDashboard() {
   const totalPages = Math.ceil(filteredFichas.length / itemsPerPage) || 1;
   const paginatedFichas = useMemo(() => {
     const startIdx = (currentPage - 1) * itemsPerPage;
-    return filteredFichas.slice(startIdx, startIdx + itemsPerPage);
-  }, [filteredFichas, currentPage]);
+    return sortedFichas.slice(startIdx, startIdx + itemsPerPage);
+  }, [sortedFichas, currentPage]);
+
+  // Helper to render sortable headers
+  const renderSortableHeader = (label: string, sortKey: string, align: 'left' | 'right' | 'center' = 'left') => {
+    const isSorted = sortConfig.key === sortKey;
+    const justifyClass = align === 'right' ? 'justify-end' : align === 'center' ? 'justify-center' : 'justify-start';
+    const textAlignClass = align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : 'text-left';
+    
+    return (
+      <th 
+        onClick={() => handleSort(sortKey)} 
+        className={`py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 hover:text-slate-700 transition-colors select-none group ${textAlignClass}`}
+      >
+        <div className={`flex items-center gap-1.5 ${justifyClass}`}>
+          {align === 'right' && (
+            <span className="text-slate-400 group-hover:text-slate-600 transition-colors shrink-0">
+              {!isSorted ? (
+                <ArrowUpDown className="w-3 h-3 opacity-40 group-hover:opacity-100" />
+              ) : sortConfig.direction === 'asc' ? (
+                <ChevronUp className="w-3 h-3 text-blue-500" />
+              ) : (
+                <ChevronDown className="w-3 h-3 text-blue-500" />
+              )}
+            </span>
+          )}
+          <span>{label}</span>
+          {align !== 'right' && (
+            <span className="text-slate-400 group-hover:text-slate-600 transition-colors shrink-0">
+              {!isSorted ? (
+                <ArrowUpDown className="w-3 h-3 opacity-40 group-hover:opacity-100" />
+              ) : sortConfig.direction === 'asc' ? (
+                <ChevronUp className="w-3 h-3 text-blue-500" />
+              ) : (
+                <ChevronDown className="w-3 h-3 text-blue-500" />
+              )}
+            </span>
+          )}
+        </div>
+      </th>
+    );
+  };
 
   // Chart data 1: Donut chart of categories
   const pieChartData = useMemo(() => {
@@ -482,6 +592,22 @@ export function OrcamentoDashboard() {
                 <option value="critical">Crítico (&gt; 85%)</option>
               </select>
             </div>
+
+            {/* Clear Filters Button */}
+            {(searchTerm !== "" || selectedSetor !== "all" || selectedCategoria !== "all" || selectedStatus !== "all") && (
+              <button
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedSetor("all");
+                  setSelectedCategoria("all");
+                  setSelectedStatus("all");
+                }}
+                className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-bold rounded-2xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 transition-all shadow-sm cursor-pointer"
+              >
+                <XCircle className="w-4 h-4 shrink-0" />
+                Limpar Filtros
+              </button>
+            )}
           </div>
         </div>
 
@@ -490,14 +616,14 @@ export function OrcamentoDashboard() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200/60">
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-20">Ficha</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-36">CATEC</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Especificação da Despesa</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Setor / Departamento</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Dotação</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Empenhado</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Saldo</th>
-                <th className="py-3.5 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center w-40">Consumo (%)</th>
+                {renderSortableHeader("Ficha", "ficha", "left")}
+                {renderSortableHeader("CATEC", "catecficha", "left")}
+                {renderSortableHeader("Especificação da Despesa", "especificacao", "left")}
+                {renderSortableHeader("Setor / Departamento", "setor", "left")}
+                {renderSortableHeader("Dotação", "dotacao", "right")}
+                {renderSortableHeader("Empenhado", "empenhado", "right")}
+                {renderSortableHeader("Saldo", "saldo", "right")}
+                {renderSortableHeader("Consumo (%)", "percentual_consumido", "center")}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -579,6 +705,33 @@ export function OrcamentoDashboard() {
                 )}
               </AnimatePresence>
             </tbody>
+            {filteredFichas.length > 0 && (
+              <tfoot>
+                <tr className="bg-slate-50/80 border-t-2 border-slate-200/80 font-extrabold text-slate-800">
+                  <td colSpan={4} className="py-3 px-4 text-xs font-black uppercase text-slate-500 tracking-wider">
+                    Total Filtrado ({filteredFichas.length} Fichas)
+                  </td>
+                  <td className="py-3 px-4 text-right text-sm">
+                    {formatBRL(filteredTotals.dotacao)}
+                  </td>
+                  <td className="py-3 px-4 text-right text-sm">
+                    {formatBRL(filteredTotals.empenhado)}
+                  </td>
+                  <td className={`py-3 px-4 text-right text-sm ${filteredTotals.saldo < 0 ? 'text-rose-600' : 'text-slate-800'}`}>
+                    {formatBRL(filteredTotals.saldo)}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <span className={`px-2.5 py-0.5 text-[10px] font-black rounded-full border ${
+                      filteredPercent > 85 ? "text-rose-600 bg-rose-50 border-rose-100" :
+                      filteredPercent > 70 ? "text-amber-600 bg-amber-50 border-amber-100" :
+                      "text-emerald-600 bg-emerald-50 border-emerald-100"
+                    }`}>
+                      {formatPercent(filteredPercent)}
+                    </span>
+                  </td>
+                </tr>
+              </tfoot>
+            )}
           </table>
         </div>
 
