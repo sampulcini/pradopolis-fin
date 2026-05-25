@@ -317,16 +317,6 @@ export function DespesasFixas() {
                 data={progressao_mensal}
                 margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
               >
-                <defs>
-                  <linearGradient id="colorFolha" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.0}/>
-                  </linearGradient>
-                  <linearGradient id="colorContratos" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.0}/>
-                  </linearGradient>
-                </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis 
                   dataKey="mes_nome" 
@@ -344,11 +334,23 @@ export function DespesasFixas() {
                   formatter={(val: any, name: any) => [formatBRL(Number(val)), name.toString().toUpperCase()]}
                   contentStyle={{ borderRadius: "12px", fontSize: "11px", border: "1px solid #f1f5f9" }}
                 />
-                <Legend iconSize={8} wrapperStyle={{ fontSize: "9px", fontWeight: 700, marginTop: "8px" }} />
-                <Area type="monotone" dataKey="folha" stackId="1" stroke="#8B5CF6" fillOpacity={1} fill="url(#colorFolha)" name="Folha Salarial" />
-                <Area type="monotone" dataKey="contratos" stackId="1" stroke="#3B82F6" fillOpacity={1} fill="url(#colorContratos)" name="Contratos" />
-                <Area type="monotone" dataKey="auxilio" stackId="1" stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.1} name="Auxílio Alim." />
-                <Area type="monotone" dataKey="ingesp" stackId="1" stroke="#10B981" fill="#10B981" fillOpacity={0.1} name="INGESP" />
+                <Legend 
+                  iconType="circle"
+                  iconSize={8} 
+                  wrapperStyle={{ fontSize: "9px", fontWeight: 700, marginTop: "8px" }} 
+                  {...({
+                    payload: [
+                      { value: "Folha Salarial", type: "circle", id: "folha", color: "#8B5CF6" },
+                      { value: "Contratos", type: "circle", id: "contratos", color: "#3B82F6" },
+                      { value: "Auxílio Alim.", type: "circle", id: "auxilio", color: "#F59E0B" },
+                      { value: "INGESP", type: "circle", id: "ingesp", color: "#10B981" }
+                    ]
+                  } as any)}
+                />
+                <Area type="monotone" dataKey="folha" stackId="1" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.15} name="Folha Salarial" />
+                <Area type="monotone" dataKey="contratos" stackId="1" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.15} name="Contratos" />
+                <Area type="monotone" dataKey="auxilio" stackId="1" stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.15} name="Auxílio Alim." />
+                <Area type="monotone" dataKey="ingesp" stackId="1" stroke="#10B981" fill="#10B981" fillOpacity={0.15} name="INGESP" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
