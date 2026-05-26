@@ -207,7 +207,7 @@ def process_despesas_fixas():
         'contratos': contratos_lista
     }
     
-    out_dir = 'frontend/src/data'
+    out_dir = 'src/data'
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, 'despesas_fixas_data.json')
     

@@ -297,8 +297,8 @@ def process_orcamento():
         'fichas': all_fichas
     }
     
-    os.makedirs('frontend/src/data', exist_ok=True)
-    out_path = 'frontend/src/data/orcamento_data.json'
+    os.makedirs('src/data', exist_ok=True)
+    out_path = 'src/data/orcamento_data.json'
     with open(out_path, 'w', encoding='utf-8') as outfile:
         json.dump(output_data, outfile, ensure_ascii=False, indent=2)
         

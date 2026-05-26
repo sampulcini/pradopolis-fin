@@ -289,7 +289,7 @@ def process_budget_data():
         f.write(f"const dashboardData = {json.dumps(result, indent=2, ensure_ascii=False)};\n")
         
     # Também salva no diretório do frontend
-    frontend_json_path = os.path.join('frontend', 'src', 'data', 'dashboard_data.json')
+    frontend_json_path = os.path.join('src', 'data', 'dashboard_data.json')
     if os.path.exists(os.path.dirname(frontend_json_path)):
         with open(frontend_json_path, 'w', encoding='utf-8') as f:
             json.dump(result, f, indent=2, ensure_ascii=False)

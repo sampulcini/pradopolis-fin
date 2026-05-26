@@ -98,7 +98,7 @@ def build_tree():
     deduc_val = 0.0
     has_deduc = False
     if not deduc_row.empty:
-        deduc_val = clean_currency(deduc_row.iloc[0]['CATEGORIAECO'])
+        deduc_val = clean_currency(deduc_row.iloc[0]['VALOR F. TOTAL'])
         has_deduc = True
 
     # 1. Generate Treemap data
@@ -233,10 +233,10 @@ def build_tree():
         table_data.append(g)
 
     # Write output JSONs
-    with open('frontend/src/data/treemap_data.json', 'w', encoding='utf-8') as f:
+    with open('src/data/treemap_data.json', 'w', encoding='utf-8') as f:
         json.dump(treemap_data, f, ensure_ascii=False, indent=2)
         
-    with open('frontend/src/data/treetable_data.json', 'w', encoding='utf-8') as f:
+    with open('src/data/treetable_data.json', 'w', encoding='utf-8') as f:
         json.dump(table_data, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":

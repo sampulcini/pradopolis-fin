@@ -9,7 +9,7 @@ declare global {
 
 const dbDir = process.env.VERCEL 
   ? "/tmp" 
-  : path.join(process.cwd(), "..", "data");
+  : path.join(process.cwd(), "data");
 
 if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
