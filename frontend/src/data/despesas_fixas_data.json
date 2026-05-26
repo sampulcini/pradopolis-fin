@@ -1,12 +1,12 @@
 {
   "resumo_geral": {
-    "total_despesas_fixas_anual": 110314871.86,
-    "total_despesas_fixas_mensal": 9192905.99,
+    "total_despesas_fixas_anual": 110334871.86,
+    "total_despesas_fixas_mensal": 9194572.66,
     "folha_anual": 73184018.0,
-    "contratos_anual": 18419253.86,
+    "contratos_anual": 18439253.86,
     "auxilio_anual": 12711600.0,
     "ingesp_anual": 6000000.0,
-    "num_contratos_ativos": 215
+    "num_contratos_ativos": 216
   },
   "progressao_mensal": [
     {
@@ -49,19 +49,19 @@
       "mes_num": 5,
       "mes_nome": "Maio",
       "folha": 5998690.0,
-      "contratos": 1678760.07,
+      "contratos": 1688760.07,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9236750.07
+      "total": 9246750.07
     },
     {
       "mes_num": 6,
       "mes_nome": "Junho",
       "folha": 5998690.0,
-      "contratos": 1675760.05,
+      "contratos": 1685760.05,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9233750.05
+      "total": 9243750.05
     },
     {
       "mes_num": 7,
@@ -121,7 +121,7 @@
   "contratos_por_setor": [
     {
       "setor": "DEPARTAMENTO MUNICIPAL DE EDUCAÇÃO",
-      "valor": 7333913.35
+      "valor": 7353913.35
     },
     {
       "setor": "DEPARTAMENTO DE ADMINISTRAÇÃO GERAL",
@@ -187,7 +187,7 @@
     },
     {
       "categoria": "OUTROS SERVIÇOS DE TERCEIROS - PESSOA JURÍDICA",
-      "valor": 1562483.44
+      "valor": 1582483.44
     },
     {
       "categoria": "PRECATÓRIOS - ATIVO - PESSOAL CIVIL",
@@ -2494,6 +2494,31 @@
         1666.67,
         1666.67,
         1666.63
+      ]
+    },
+    {
+      "empenho": "3689",
+      "contrato": "0006/26",
+      "fornecedor": "E. ZANOL ESPORTES",
+      "historico": "CONTRATAÇÃO DE SERVIÇOS TÉCNICO-PEDAGOGICOS ESPECIALIZADOS PARA IMPLEMENTAÇÃO DA METODOLOGIA BRANCO ZANOL DE ENSINO DE JUDO PARA O PUBLICO INFANTIL, VISANDO AO DESENVOLVIMENTO FISICO, MENTAL E ESPIRITUAL DOS ALUNOS EM CONFORMIDADE COM AS DIRETRIZES, MATERIAIS E PRATICAS DESCRITAS NO CADERNO DE ATIVIDADES INICIAÇÃO INFANTIL.",
+      "setor": "DEPARTAMENTO MUNICIPAL DE EDUCAÇÃO",
+      "categoria": "OUTROS SERVIÇOS DE TERCEIROS - PESSOA JURÍDICA",
+      "ficha": "71",
+      "valor_anual": 20000.0,
+      "valor_mensal": 1666.67,
+      "cronograma": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        10000.0,
+        10000.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ]
     },
     {

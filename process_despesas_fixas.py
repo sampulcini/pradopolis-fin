@@ -34,7 +34,7 @@ def clean_text(text):
     return text
 
 def process_despesas_fixas():
-    csv_path = 'data/contratos2026.csv'
+    csv_path = 'data/contratos2026-2.csv'
     if not os.path.exists(csv_path):
         print(f"Error: {csv_path} not found!")
         return

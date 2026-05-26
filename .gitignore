@@ -17,3 +17,8 @@ frontend/.env*.local
 # System files
 .DS_Store
 Thumbs.db
+
+# Databases
+data/*.db
+data/users.db
+data/users.db-*

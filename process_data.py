@@ -54,12 +54,14 @@ def parse_orcamento_consolidado():
             })
             
         if col0 == "IRRF (retenção da folha)":
+            bruto_irrf = clean_currency(row[1])
+            valor_inad_irrf = round(bruto_irrf * 0.23, 2)
             inadimplencia.append({
                 "imposto": "IRRF",
-                "receita_bruta": clean_currency(row[1]),
-                "percentual_inadimplencia": 50.0,
-                "valor_inadimplente": 2157037.56,
-                "receita_liquida": clean_currency(row[1]) - 2157037.56
+                "receita_bruta": bruto_irrf,
+                "percentual_inadimplencia": 23.0,
+                "valor_inadimplente": valor_inad_irrf,
+                "receita_liquida": bruto_irrf - valor_inad_irrf
             })
             
         # Composição Receita (linhas de resumo no final do arquivo)
@@ -77,7 +79,7 @@ def parse_orcamento_consolidado():
     }
 
 def process_budget_data():
-    csv_path = os.path.join('data', 'contratos2026.csv')
+    csv_path = os.path.join('data', 'contratos2026-2.csv')
     if not os.path.exists(csv_path):
         print(f"Error: {csv_path} not found!")
         return

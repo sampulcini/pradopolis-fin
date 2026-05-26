@@ -7,9 +7,9 @@ const dashboardData = {
     "2025": {
       "resumo": {
         "receita_total": 93374155.31,
-        "despesa_total": 102571149.29,
-        "indice_medio": 109.85,
-        "saldo_total": -9196993.98
+        "despesa_total": 102589749.29,
+        "indice_medio": 109.87,
+        "saldo_total": -9215593.98
       },
       "mensal": [
         {
@@ -44,15 +44,15 @@ const dashboardData = {
           "mes_num": 5,
           "mes_nome": "Maio",
           "receita": 7436619.66,
-          "despesa": 8681350.469999999,
-          "indice": 116.74
+          "despesa": 8690650.469999999,
+          "indice": 116.86
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
           "receita": 6038066.34,
-          "despesa": 8678560.45,
-          "indice": 143.73
+          "despesa": 8687860.45,
+          "indice": 143.88
         },
         {
           "mes_num": 7,
@@ -122,7 +122,7 @@ const dashboardData = {
         },
         {
           "categoria": "Contratos de Prestação de Serviços",
-          "valor": 17129906.09
+          "valor": 17148506.09
         },
         {
           "categoria": "Auxílio Alimentação",
@@ -137,9 +137,9 @@ const dashboardData = {
     "2026": {
       "resumo": {
         "receita_total": 107269774.43,
-        "despesa_total": 110314871.86,
-        "indice_medio": 102.84,
-        "saldo_total": -3045097.43
+        "despesa_total": 110334871.86,
+        "indice_medio": 102.86,
+        "saldo_total": -3065097.43
       },
       "mensal": [
         {
@@ -174,15 +174,15 @@ const dashboardData = {
           "mes_num": 5,
           "mes_nome": "Maio",
           "receita": 9249417.3,
-          "despesa": 9236750.07,
-          "indice": 99.86
+          "despesa": 9246750.07,
+          "indice": 99.97
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
           "receita": 9249417.3,
-          "despesa": 9233750.05,
-          "indice": 99.83
+          "despesa": 9243750.05,
+          "indice": 99.94
         },
         {
           "mes_num": 7,
@@ -252,7 +252,7 @@ const dashboardData = {
         },
         {
           "categoria": "Contratos de Prestação de Serviços",
-          "valor": 18419253.860000003
+          "valor": 18439253.860000003
         },
         {
           "categoria": "Auxílio Alimentação",
@@ -358,9 +358,9 @@ const dashboardData = {
         {
           "imposto": "IRRF",
           "receita_bruta": 4314075.12,
-          "percentual_inadimplencia": 50.0,
-          "valor_inadimplente": 2157037.56,
-          "receita_liquida": 2157037.56
+          "percentual_inadimplencia": 23.0,
+          "valor_inadimplente": 992237.28,
+          "receita_liquida": 3321837.84
         }
       ],
       "composicao_receita": [

@@ -18,9 +18,7 @@ const dockItems: DockItem[] = [
   { id: "receita", name: "Arrecadação", icon: <Landmark />, color: "bg-emerald-500" },
   { id: "despesas", name: "Despesas Fixas", icon: <TrendingDown />, color: "bg-rose-500" },
   { id: "orcamento", name: "Orçamento", icon: <PieChart />, color: "bg-blue-500" },
-  { id: "folha", name: "Folha Salarial", icon: <Users />, color: "bg-indigo-500" },
-  { id: "contratos", name: "Contratos", icon: <FileText />, color: "bg-amber-500" },
-  { id: "simulador", name: "Simulador", icon: <Calculator />, color: "bg-teal-500" },
+  { id: "documentos", name: "Documentos", icon: <FileText />, color: "bg-amber-500" },
   { id: "settings", name: "Configurações", icon: <Settings />, color: "bg-slate-500" },
 ]
 
