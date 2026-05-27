@@ -283,7 +283,14 @@ export function DespesasFixas() {
   // Department Bar Chart Data (Top 5)
   const deptBarChartData = useMemo(() => {
     return contratos_por_setor.slice(0, 5).map(item => ({
-      name: item.setor.replace("DEPARTAMENTO MUNICIPAL DE ", "DEP. ").replace("DEPARTAMENTO DE ", "DEP. ").substring(0, 18),
+      name: item.setor
+        .replace("DEPARTAMENTO MUNICIPAL DE ", "DEP. ")
+        .replace("DEPARTAMENTO DE ", "DEP. ")
+        .replace("SECRETARIA MUNICIPAL DE ", "SEC. ")
+        .replace("SECRETARIA DE ", "SEC. ")
+        .replace(" E SERVIÇOS URBANOS", "")
+        .replace(" E FINANÇAS", "")
+        .substring(0, 25),
       "Valor Contratado": item.valor,
       fullName: item.setor
     }));
@@ -500,12 +507,12 @@ export function DespesasFixas() {
             <p className="text-xs font-semibold text-slate-400 mt-0.5">Comparativo dos 5 departamentos municipais com maior volume acumulado de contratos de serviços</p>
           </div>
 
-          <div className="w-full h-44">
+          <div className="w-full h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={deptBarChartData}
                 layout="vertical"
-                margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+                margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
                 <XAxis 
@@ -521,7 +528,7 @@ export function DespesasFixas() {
                   tick={{ fill: COLORS.neutral, fontSize: 8, fontWeight: 700 }}
                   axisLine={false}
                   tickLine={false}
-                  width={120}
+                  width={150}
                 />
                 <Tooltip 
                   formatter={(value: any) => [formatBRL(Number(value)), "Valor Total"]}

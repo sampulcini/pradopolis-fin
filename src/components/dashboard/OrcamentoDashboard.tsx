@@ -307,7 +307,14 @@ export function OrcamentoDashboard() {
   // Chart data 2: Top Sectors Bar Chart (Top 6)
   const barChartData = useMemo(() => {
     return setores.slice(0, 6).map(s => ({
-      name: s.setor.replace("DEPARTAMENTO MUNICIPAL DE ", "DEP. ").replace("DEPARTAMENTO DE ", "DEP. ").substring(0, 20),
+      name: s.setor
+        .replace("DEPARTAMENTO MUNICIPAL DE ", "DEP. ")
+        .replace("DEPARTAMENTO DE ", "DEP. ")
+        .replace("SECRETARIA MUNICIPAL DE ", "SEC. ")
+        .replace("SECRETARIA DE ", "SEC. ")
+        .replace(" E SERVIÇOS URBANOS", "")
+        .replace(" E FINANÇAS", "")
+        .substring(0, 20),
       "Dotação": s.dotacao,
       "Empenhado": s.empenhado,
       fullName: s.setor
@@ -484,11 +491,11 @@ export function OrcamentoDashboard() {
             <p className="text-xs font-semibold text-slate-400 mt-0.5">Comparativo entre Dotação Autorizada e Empenhada</p>
           </div>
 
-          <div className="w-full h-52 mt-4">
+          <div className="w-full h-64 mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={barChartData}
-                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                margin={{ top: 10, right: 10, left: 10, bottom: 25 }}
                 barGap={2}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -497,12 +504,16 @@ export function OrcamentoDashboard() {
                   tick={{ fill: COLORS.neutral, fontSize: 8, fontWeight: 700 }}
                   axisLine={false}
                   tickLine={false}
+                  angle={-30}
+                  textAnchor="end"
+                  height={60}
                 />
                 <YAxis 
                   tick={{ fill: COLORS.neutral, fontSize: 8 }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(val) => `R$ ${(val / 1000000).toFixed(1)}M`}
+                  width={75}
                 />
                 <Tooltip 
                   formatter={(value: any) => [formatBRL(Number(value)), ""]}

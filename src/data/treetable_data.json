@@ -285,24 +285,9 @@
   {
     "id": "02",
     "name": "Recursos Vinculados (União / Estado / Emendas)",
-    "value": 166436568.7,
+    "value": 34097770.88,
     "type": "root",
     "children": [
-      {
-        "id": "na",
-        "name": "Outras Receitas (Na)",
-        "value": 132338797.82,
-        "type": "node",
-        "children": [
-          {
-            "id": "nan",
-            "name": "Nan",
-            "siglas": null,
-            "value": 132338797.82,
-            "type": "leaf"
-          }
-        ]
-      },
       {
         "id": "17",
         "name": "Transferências Correntes",

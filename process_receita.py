@@ -61,6 +61,8 @@ def title_with_acronyms(text):
 
 def build_tree():
     df = pd.read_csv('data/orcamento-arrecadacao2026.csv', sep=';', encoding='utf-8-sig', dtype=str)
+    df = df.dropna(subset=['CODRE'])
+    df = df[df['CODRE'].str.strip() != '']
     
     df['VALOR_CLEAN'] = df[' VALOR '].apply(clean_currency)
     

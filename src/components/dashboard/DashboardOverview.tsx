@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useMotionValue, animate } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -33,6 +33,37 @@ function formatBRL(value: number) {
     style: "currency",
     currency: "BRL",
   }).format(value);
+}
+
+function AnimatedNumber({ value, type = "currency" }: { value: number; type?: "currency" | "percent" }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const motionValue = useMotionValue(0);
+  
+  useEffect(() => {
+    const controls = animate(motionValue, value, {
+      duration: 1.2,
+      ease: "easeOut",
+      onUpdate: (latest) => {
+        if (ref.current) {
+          if (type === "currency") {
+            ref.current.textContent = new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format(latest);
+          } else {
+            ref.current.textContent = new Intl.NumberFormat("pt-BR", {
+              style: "decimal",
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+            }).format(latest) + "%";
+          }
+        }
+      }
+    });
+    return () => controls.stop();
+  }, [value, type, motionValue]);
+
+  return <span ref={ref}>{type === "currency" ? "R$ 0,00" : "0,0%"}</span>;
 }
 
 function StatCard({ title, value, subtitle, icon: Icon, iconColorClass, valueColorClass, cardBorderClass, onClick }: any) {
@@ -206,7 +237,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                     indiceVal >= 70 ? "from-amber-500 to-orange-600" : 
                     "from-emerald-500 to-teal-600"
                   } bg-clip-text text-transparent`}>
-                    {indiceVal.toFixed(1).replace(".", ",")}%
+                    <AnimatedNumber value={indiceVal} type="percent" />
                   </h3>
                 </div>
 
@@ -371,14 +402,15 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
             </div>
             <div className="h-[320px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={monthlyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <BarChart data={monthlyData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: "#64748b", fontSize: 12 }} dy={10} />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: "#64748b", fontSize: 12 }} 
-                    tickFormatter={(val) => `R$ ${(val / 1000).toFixed(0)}k`} 
+                    tick={{ fill: "#64748b", fontSize: 11 }} 
+                    tickFormatter={(val) => val === 0 ? "R$ 0" : "R$ " + (val / 1000000).toFixed(1).replace(".0", "") + "M"}
+                    width={80}
                   />
                   <Tooltip
                     cursor={{ fill: "rgba(0,0,0,0.02)" }}
@@ -433,21 +465,21 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <StatCard
                 title="Receita do Tesouro"
-                value={formatBRL(receitaAjustada)}
+                value={<AnimatedNumber value={receitaAjustada} />}
                 subtitle="Orçamento Líquido Anual"
                 icon={TrendingUp}
                 iconColorClass="bg-blue-50 border border-blue-100 text-blue-500"
               />
               <StatCard
                 title="Despesa do Tesouro"
-                value={formatBRL(despesaAjustada)}
+                value={<AnimatedNumber value={despesaAjustada} />}
                 subtitle="Custo de Custeio e Pessoal"
                 icon={Receipt}
                 iconColorClass="bg-rose-50 border border-rose-100 text-rose-500"
               />
               <StatCard
                 title={saldoAjustado < 0 ? "Déficit do Tesouro" : "Saldo do Tesouro"}
-                value={formatBRL(saldoAjustado)}
+                value={<AnimatedNumber value={saldoAjustado} />}
                 subtitle={
                   activeYear === "2026"
                     ? `${saldoAjustado < 0 ? "Déficit" : "Superávit"} real (deduzidos ${formatBRL(inadiTotal)} de perdas)`
@@ -460,7 +492,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
               />
               <StatCard
                 title="Perda"
-                value={activeYear === "2026" ? formatBRL(inadiTotal) : "N/A"}
+                value={activeYear === "2026" ? <AnimatedNumber value={inadiTotal} /> : "N/A"}
                 subtitle={activeYear === "2026" ? "Inadimplência Projetada" : "Sem dados para 2025"}
                 icon={AlertCircle}
                 iconColorClass="bg-amber-50 border border-amber-100 text-amber-500"
