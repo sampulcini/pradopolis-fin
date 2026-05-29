@@ -79,7 +79,7 @@ def parse_orcamento_consolidado():
     }
 
 def process_budget_data():
-    csv_path = os.path.join('data', 'contratos2026-2.csv')
+    csv_path = os.path.join('data', 'contratos2026.csv')
     if not os.path.exists(csv_path):
         print(f"Error: {csv_path} not found!")
         return
@@ -142,7 +142,18 @@ def process_budget_data():
     
     # 3. Consolidação das Despesas Fixas (Mensal Dinâmico por Mês de Referência)
     # Custos constantes informados pelo usuário:
-    folha_mensal = 5798690.00 + 200000.00  # R$ 5.998.690,00
+    folha_real_2026 = {
+        1: 6120055.45, 2: 6120055.45, 3: 6120055.45, 4: 6120055.45,
+        5: 6386277.86, 6: 6386277.86, 7: 6386277.86, 8: 6386277.86,
+        9: 6386277.86, 10: 6386277.86, 11: 6386277.86, 12: 10028664.25
+    }
+    
+    folha_real_2025 = {
+        1: 6061879.62, 2: 5454828.50, 3: 5646489.22, 4: 5641212.48,
+        5: 5821551.32, 6: 6112642.86, 7: 5939125.45, 8: 5836509.45,
+        9: 5904544.97, 10: 6030456.85, 11: 6100283.21, 12: 9670493.30
+    }
+    
     alimentacao_mensal = 1059300.00
     ingesp_mensal = 500000.00
     
@@ -163,8 +174,8 @@ def process_budget_data():
         rec = dados_arrecadacao_2026.get(m, 0.0)
         contrato_m = contratos_mensal.get(m, 0.0)
         
-        # Folha salarial do mês (Dezembro tem 13º salário totalizando R$ 7.198.428,00)
-        folha_m = 7198428.00 if m == 12 else folha_mensal
+        # Folha salarial do mês com valores reais
+        folha_m = folha_real_2026.get(m, 0.0)
         total_folha_2026 += folha_m
         
         # Despesa fixa mensal = Folha + Alimentação + INGESP + Valor dinâmico do contrato do mês
@@ -204,15 +215,18 @@ def process_budget_data():
     
     global_ratio_2026 = (total_despesa_2026 / total_receita_2026) * 100 if total_receita_2026 > 0 else 0
     
-    # 4. Gerando dados de 2025 (Simulados como 95% de 2026 para comparação e toggle interativo)
+    # 4. Gerando dados de 2025 (Com dados reais de folha)
     mensal_2025 = []
     total_receita_2025 = 0
     total_despesa_2025 = 0
+    total_folha_2025 = 0.0
     
     for m in range(1, 13):
         rec_25 = dados_arrecadacao_2025.get(m, 0.0)
         contrato_m_25 = round(contratos_mensal.get(m, 0.0) * 0.93, 2) # custo de contratos ligeiramente menor em 2025
-        desp_25 = (folha_mensal * 0.94) + (alimentacao_mensal * 0.95) + (ingesp_mensal * 0.95) + contrato_m_25
+        folha_25 = folha_real_2025.get(m, 0.0)
+        total_folha_2025 += folha_25
+        desp_25 = folha_25 + (alimentacao_mensal * 0.95) + (ingesp_mensal * 0.95) + contrato_m_25
         
         total_receita_2025 += rec_25
         total_despesa_2025 += desp_25
@@ -228,7 +242,7 @@ def process_budget_data():
         })
         
     despesas_categorias_2025 = [
-        {"categoria": "Folha Salarial", "valor": round(folha_mensal * 0.94 * 12, 2)},
+        {"categoria": "Folha Salarial", "valor": round(total_folha_2025, 2)},
         {"categoria": "Contratos de Prestação de Serviços", "valor": round(total_contratos_2026 * 0.93, 2)},
         {"categoria": "Auxílio Alimentação", "valor": round(alimentacao_mensal * 0.95 * 12, 2)},
         {"categoria": "Pagamento INGESP INNOVARE", "valor": round(ingesp_mensal * 0.95 * 12, 2)}

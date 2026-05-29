@@ -1,8 +1,8 @@
 {
   "resumo_geral": {
-    "total_despesas_fixas_anual": 110334871.86,
-    "total_despesas_fixas_mensal": 9194572.66,
-    "folha_anual": 73184018.0,
+    "total_despesas_fixas_anual": 116363684.93,
+    "total_despesas_fixas_mensal": 9696973.74,
+    "folha_anual": 79212831.07,
     "contratos_anual": 18439253.86,
     "auxilio_anual": 12711600.0,
     "ingesp_anual": 6000000.0,
@@ -12,110 +12,110 @@
     {
       "mes_num": 1,
       "mes_nome": "Janeiro",
-      "folha": 5998690.0,
+      "folha": 6120055.45,
       "contratos": 1456667.42,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9014657.42
+      "total": 9136022.87
     },
     {
       "mes_num": 2,
       "mes_nome": "Fevereiro",
-      "folha": 5998690.0,
+      "folha": 6120055.45,
       "contratos": 1645717.44,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9203707.44
+      "total": 9325072.89
     },
     {
       "mes_num": 3,
       "mes_nome": "Março",
-      "folha": 5998690.0,
+      "folha": 6120055.45,
       "contratos": 1668433.55,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9226423.55
+      "total": 9347789.0
     },
     {
       "mes_num": 4,
       "mes_nome": "Abril",
-      "folha": 5998690.0,
+      "folha": 6120055.45,
       "contratos": 1643627.67,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9201617.67
+      "total": 9322983.12
     },
     {
       "mes_num": 5,
       "mes_nome": "Maio",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1688760.07,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9246750.07
+      "total": 9634337.93
     },
     {
       "mes_num": 6,
       "mes_nome": "Junho",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1685760.05,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9243750.05
+      "total": 9631337.91
     },
     {
       "mes_num": 7,
       "mes_nome": "Julho",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1636374.98,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9194364.98
+      "total": 9581952.84
     },
     {
       "mes_num": 8,
       "mes_nome": "Agosto",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1537536.78,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9095526.78
+      "total": 9483114.64
     },
     {
       "mes_num": 9,
       "mes_nome": "Setembro",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1454532.87,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 9012522.87
+      "total": 9400110.73
     },
     {
       "mes_num": 10,
       "mes_nome": "Outubro",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1404747.79,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 8962737.79
+      "total": 9350325.65
     },
     {
       "mes_num": 11,
       "mes_nome": "Novembro",
-      "folha": 5998690.0,
+      "folha": 6386277.86,
       "contratos": 1369991.73,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 8927981.73
+      "total": 9315569.59
     },
     {
       "mes_num": 12,
       "mes_nome": "Dezembro",
-      "folha": 7198428.0,
+      "folha": 10028664.25,
       "contratos": 1247103.51,
       "auxilio": 1059300.0,
       "ingesp": 500000.0,
-      "total": 10004831.51
+      "total": 12835067.76
     }
   ],
   "contratos_por_setor": [

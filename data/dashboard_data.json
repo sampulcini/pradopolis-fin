@@ -7,94 +7,94 @@
     "2025": {
       "resumo": {
         "receita_total": 93374155.31,
-        "despesa_total": 102589749.29,
-        "indice_medio": 109.87,
-        "saldo_total": -9215593.98
+        "despesa_total": 109144543.32,
+        "indice_medio": 116.89,
+        "saldo_total": -15770388.01
       },
       "mensal": [
         {
           "mes_num": 1,
           "mes_nome": "Janeiro",
           "receita": 8992094.84,
-          "despesa": 8474804.299999999,
-          "indice": 94.25
+          "despesa": 8897915.32,
+          "indice": 98.95
         },
         {
           "mes_num": 2,
           "mes_nome": "Fevereiro",
           "receita": 7508148.17,
-          "despesa": 8650620.82,
-          "indice": 115.22
+          "despesa": 8466680.72,
+          "indice": 112.77
         },
         {
           "mes_num": 3,
           "mes_nome": "Março",
           "receita": 6666536.31,
-          "despesa": 8671746.799999999,
-          "indice": 130.08
+          "despesa": 8679467.42,
+          "indice": 130.19
         },
         {
           "mes_num": 4,
           "mes_nome": "Abril",
           "receita": 7729149.51,
-          "despesa": 8648677.33,
-          "indice": 111.9
+          "despesa": 8651121.21,
+          "indice": 111.93
         },
         {
           "mes_num": 5,
           "mes_nome": "Maio",
           "receita": 7436619.66,
-          "despesa": 8690650.469999999,
-          "indice": 116.86
+          "despesa": 8873433.190000001,
+          "indice": 119.32
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
           "receita": 6038066.34,
-          "despesa": 8687860.45,
-          "indice": 143.88
+          "despesa": 9161734.71,
+          "indice": 151.73
         },
         {
           "mes_num": 7,
           "mes_nome": "Julho",
           "receita": 9417982.76,
-          "despesa": 8641932.33,
-          "indice": 91.76
+          "despesa": 8942289.18,
+          "indice": 94.95
         },
         {
           "mes_num": 8,
           "mes_nome": "Agosto",
           "receita": 6589338.76,
-          "despesa": 8550012.809999999,
-          "indice": 129.76
+          "despesa": 8747753.66,
+          "indice": 132.76
         },
         {
           "mes_num": 9,
           "mes_nome": "Setembro",
           "receita": 7684578.51,
-          "despesa": 8472819.17,
-          "indice": 110.26
+          "despesa": 8738595.54,
+          "indice": 113.72
         },
         {
           "mes_num": 10,
           "mes_nome": "Outubro",
           "receita": 7898617.48,
-          "despesa": 8426519.04,
-          "indice": 106.68
+          "despesa": 8818207.29,
+          "indice": 111.64
         },
         {
           "mes_num": 11,
           "mes_nome": "Novembro",
           "receita": 6467407.26,
-          "despesa": 8394195.91,
-          "indice": 129.79
+          "despesa": 8855710.52,
+          "indice": 136.93
         },
         {
           "mes_num": 12,
           "mes_nome": "Dezembro",
           "receita": 10945615.71,
-          "despesa": 8279909.859999999,
-          "indice": 75.65
+          "despesa": 12311634.56,
+          "indice": 112.48
         }
       ],
       "receitas_por_categoria": [
@@ -118,7 +118,7 @@
       "despesas_por_categoria": [
         {
           "categoria": "Folha Salarial",
-          "valor": 67665223.2
+          "valor": 74220017.23
         },
         {
           "categoria": "Contratos de Prestação de Serviços",
@@ -137,94 +137,94 @@
     "2026": {
       "resumo": {
         "receita_total": 107269774.43,
-        "despesa_total": 110334871.86,
-        "indice_medio": 102.86,
-        "saldo_total": -3065097.43
+        "despesa_total": 116363684.93,
+        "indice_medio": 108.48,
+        "saldo_total": -9093910.5
       },
       "mensal": [
         {
           "mes_num": 1,
           "mes_nome": "Janeiro",
           "receita": 9383668.31,
-          "despesa": 9014657.42,
-          "indice": 96.07
+          "despesa": 9136022.870000001,
+          "indice": 97.36
         },
         {
           "mes_num": 2,
           "mes_nome": "Fevereiro",
           "receita": 7255894.64,
-          "despesa": 9203707.44,
-          "indice": 126.84
+          "despesa": 9325072.89,
+          "indice": 128.52
         },
         {
           "mes_num": 3,
           "mes_nome": "Março",
           "receita": 8556606.24,
-          "despesa": 9226423.55,
-          "indice": 107.83
+          "despesa": 9347789.0,
+          "indice": 109.25
         },
         {
           "mes_num": 4,
           "mes_nome": "Abril",
           "receita": 8078266.83,
-          "despesa": 9201617.67,
-          "indice": 113.91
+          "despesa": 9322983.120000001,
+          "indice": 115.41
         },
         {
           "mes_num": 5,
           "mes_nome": "Maio",
           "receita": 9249417.3,
-          "despesa": 9246750.07,
-          "indice": 99.97
+          "despesa": 9634337.93,
+          "indice": 104.16
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
           "receita": 9249417.3,
-          "despesa": 9243750.05,
-          "indice": 99.94
+          "despesa": 9631337.91,
+          "indice": 104.13
         },
         {
           "mes_num": 7,
           "mes_nome": "Julho",
           "receita": 9249417.3,
-          "despesa": 9194364.98,
-          "indice": 99.4
+          "despesa": 9581952.84,
+          "indice": 103.6
         },
         {
           "mes_num": 8,
           "mes_nome": "Agosto",
           "receita": 9249417.3,
-          "despesa": 9095526.78,
-          "indice": 98.34
+          "despesa": 9483114.64,
+          "indice": 102.53
         },
         {
           "mes_num": 9,
           "mes_nome": "Setembro",
           "receita": 9249417.3,
-          "despesa": 9012522.870000001,
-          "indice": 97.44
+          "despesa": 9400110.73,
+          "indice": 101.63
         },
         {
           "mes_num": 10,
           "mes_nome": "Outubro",
           "receita": 9249417.3,
-          "despesa": 8962737.79,
-          "indice": 96.9
+          "despesa": 9350325.65,
+          "indice": 101.09
         },
         {
           "mes_num": 11,
           "mes_nome": "Novembro",
           "receita": 9249417.3,
-          "despesa": 8927981.73,
-          "indice": 96.52
+          "despesa": 9315569.59,
+          "indice": 100.72
         },
         {
           "mes_num": 12,
           "mes_nome": "Dezembro",
           "receita": 9249417.31,
-          "despesa": 10004831.51,
-          "indice": 108.17
+          "despesa": 12835067.76,
+          "indice": 138.77
         }
       ],
       "receitas_por_categoria": [
@@ -248,7 +248,7 @@
       "despesas_por_categoria": [
         {
           "categoria": "Folha Salarial",
-          "valor": 73184018.0
+          "valor": 79212831.07000001
         },
         {
           "categoria": "Contratos de Prestação de Serviços",

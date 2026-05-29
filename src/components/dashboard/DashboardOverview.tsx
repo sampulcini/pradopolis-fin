@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, useMotionValue, animate } from "framer-motion";
+import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -14,7 +14,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { TrendingUp, Receipt, Wallet, AlertCircle, Calculator } from "lucide-react";
+import { TrendingUp, Receipt, Wallet, AlertCircle, Calculator, X } from "lucide-react";
 import dbDataRaw from "@/data/dashboard_data.json";
 
 // Type assertions for imported JSON to ensure TypeScript is happy
@@ -95,6 +95,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
   const activeYear = "2026";
   const [receitaAjuste, setReceitaAjuste] = useState(0); // em percentual (0 a 15)
   const [despesaAjuste, setDespesaAjuste] = useState(0); // em percentual (0 a 15)
+  const [showInadimplenciaModal, setShowInadimplenciaModal] = useState(false);
 
   const yearData = dbData.data[activeYear];
   const orcamentoConsolidado = dbData.data.orcamento_consolidado;
@@ -462,42 +463,125 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
         <div className="col-span-1 md:col-span-5 xl:col-span-4 flex flex-col gap-6">
           {/* Container Lateral Direito: Cards + Simulador */}
           <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <StatCard
-                title="Receita do Tesouro"
-                value={<AnimatedNumber value={receitaAjustada} />}
-                subtitle="Orçamento Líquido Anual"
-                icon={TrendingUp}
-                iconColorClass="bg-blue-50 border border-blue-100 text-blue-500"
-              />
-              <StatCard
-                title="Despesa do Tesouro"
-                value={<AnimatedNumber value={despesaAjustada} />}
-                subtitle="Custo de Custeio e Pessoal"
-                icon={Receipt}
-                iconColorClass="bg-rose-50 border border-rose-100 text-rose-500"
-              />
-              <StatCard
-                title={saldoAjustado < 0 ? "Déficit do Tesouro" : "Saldo do Tesouro"}
-                value={<AnimatedNumber value={saldoAjustado} />}
-                subtitle={
-                  activeYear === "2026"
-                    ? `${saldoAjustado < 0 ? "Déficit" : "Superávit"} real (deduzidos ${formatBRL(inadiTotal)} de perdas)`
-                    : (saldoAjustado < 0 ? "Falta de Recursos para Investimento" : "Disponibilidade para Investimentos")
-                }
-                icon={Wallet}
-                iconColorClass={saldoAjustado < 0 ? "bg-rose-50 border border-rose-200 text-rose-600 animate-pulse" : "bg-emerald-50 border border-emerald-100 text-emerald-500"}
-                valueColorClass={saldoAjustado < 0 ? "text-rose-600 font-extrabold" : "text-emerald-600 font-extrabold"}
-                cardBorderClass={saldoAjustado < 0 ? "border-rose-300/80 bg-rose-50/20 shadow-[0_8px_30px_rgba(244,63,94,0.06)]" : "border-emerald-300/80 bg-emerald-50/20 shadow-[0_8px_30px_rgba(16,185,129,0.06)]"}
-              />
-              <StatCard
-                title="Perda"
-                value={activeYear === "2026" ? <AnimatedNumber value={inadiTotal} /> : "N/A"}
-                subtitle={activeYear === "2026" ? "Inadimplência Projetada" : "Sem dados para 2025"}
-                icon={AlertCircle}
-                iconColorClass="bg-amber-50 border border-amber-100 text-amber-500"
-                onClick={() => onNavigate?.("documentos")}
-              />
+            {/* Deficit Flow Card Stack */}
+            <div className="flex flex-col gap-3 bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 rounded-3xl">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Cálculo do Déficit/Saldo do Tesouro</h4>
+              
+              {/* Card 1: Receita */}
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-blue-50/50 border border-blue-100/50 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block">Receita do Tesouro</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Orçamento Líquido Anual</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm font-black text-blue-600 block">
+                    + <AnimatedNumber value={receitaAjustada} />
+                  </span>
+                </div>
+              </div>
+
+              {/* Operator: Minus */}
+              <div className="flex justify-center -my-2 relative z-10">
+                <div className="h-6 w-6 rounded-full bg-white border border-slate-250 flex items-center justify-center text-slate-500 text-sm font-black shadow-sm select-none">
+                  −
+                </div>
+              </div>
+
+              {/* Card 2: Despesa */}
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-rose-50/50 border border-rose-100/50 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+                    <Receipt className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block">Despesa do Tesouro</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Custo de Custeio e Pessoal</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm font-black text-rose-600 block">
+                    − <AnimatedNumber value={despesaAjustada} />
+                  </span>
+                </div>
+              </div>
+
+              {/* Operator: Minus */}
+              <div className="flex justify-center -my-2 relative z-10">
+                <div className="h-6 w-6 rounded-full bg-white border border-slate-250 flex items-center justify-center text-slate-500 text-sm font-black shadow-sm select-none">
+                  −
+                </div>
+              </div>
+
+              {/* Card 3: Perda */}
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-amber-50/50 border border-amber-100/50 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                    <AlertCircle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block">Perda (Inadimplência)</span>
+                      {activeYear === "2026" && (
+                        <button
+                          onClick={() => setShowInadimplenciaModal(true)}
+                          className="px-2 py-0.5 text-[9px] font-black rounded-lg bg-amber-500 hover:bg-amber-600 text-white transition-colors cursor-pointer border-0 shadow-sm"
+                        >
+                          Saiba mais
+                        </button>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Inadimplência Projetada</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm font-black text-amber-600 block">
+                    − {activeYear === "2026" ? <AnimatedNumber value={inadiTotal} /> : "N/A"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Operator: Equals */}
+              <div className="flex justify-center -my-2 relative z-10">
+                <div className="h-6 w-6 rounded-full bg-white border border-slate-250 flex items-center justify-center text-slate-500 text-sm font-black shadow-sm select-none">
+                  =
+                </div>
+              </div>
+
+              {/* Card 4: Saldo / Déficit */}
+              <div className={`flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 ${
+                saldoAjustado < 0 
+                  ? "bg-rose-50 border-rose-300 shadow-[0_4px_20px_rgba(244,63,94,0.06)]" 
+                  : "bg-emerald-50 border-emerald-300 shadow-[0_4px_20px_rgba(16,185,129,0.06)]"
+              }`}>
+                <div className="flex items-center gap-3">
+                  <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${
+                    saldoAjustado < 0 ? "bg-rose-100 text-rose-600 animate-pulse" : "bg-emerald-100 text-emerald-600"
+                  }`}>
+                    <Wallet className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-black uppercase tracking-wider block text-slate-800">
+                      {saldoAjustado < 0 ? "Déficit do Tesouro" : "Saldo do Tesouro"}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-500 block mt-0.5 animate-pulse">
+                      {activeYear === "2026"
+                        ? `${saldoAjustado < 0 ? "Déficit" : "Superávit"} real deduzidas as perdas`
+                        : "Saldo para investimentos"
+                      }
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`text-base font-black ${saldoAjustado < 0 ? "text-rose-600 font-extrabold" : "text-emerald-600 font-extrabold"}`}>
+                    {saldoAjustado < 0 ? "-" : ""} {formatBRL(Math.abs(saldoAjustado))}
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Painel do Simulador de Ajuste */}
@@ -690,6 +774,97 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
           </div>
         </div>
       </div>
+      
+      {/* Inadimplencia Detail Modal */}
+      <AnimatePresence>
+        {showInadimplenciaModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowInadimplenciaModal(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            
+            {/* Modal Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="relative w-full max-w-2xl rounded-3xl bg-[#FAFAED] border border-white/60 shadow-2xl p-6 overflow-hidden max-h-[90vh] flex flex-col justify-between z-10"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setShowInadimplenciaModal(false)}
+                className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors border border-transparent hover:border-slate-200/50 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="mb-6">
+                <span className="px-2.5 py-0.5 text-[10px] font-black rounded-full bg-amber-50 text-amber-700 border border-amber-100 uppercase tracking-widest">
+                  Detalhamento de Perdas
+                </span>
+                <h3 className="text-xl font-black text-slate-800 tracking-tight mt-2">
+                  Inadimplência Projetada (2026)
+                </h3>
+                <p className="text-xs font-semibold text-slate-500 mt-1">
+                  Detalhamento das perdas previstas por tipo de receita para o ano de 2026.
+                </p>
+              </div>
+
+              <div className="overflow-x-auto rounded-2xl border border-slate-200/60 bg-white/95 shadow-sm mb-6 max-h-[50vh] overflow-y-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200/60 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                      <th className="py-3 px-4">Receita / Imposto</th>
+                      <th className="py-3 px-4 text-right">Valor Orçado</th>
+                      <th className="py-3 px-4 text-right">Inadimplência</th>
+                      <th className="py-3 px-4 text-right">Perda Estimada</th>
+                      <th className="py-3 px-4 text-right">Receita Líquida</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700 text-xs font-medium">
+                    {orcamentoConsolidado?.inadimplencia.map((item: any, idx: number) => (
+                      <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                        <td className="py-3.5 px-4 font-bold text-slate-800">{item.imposto}</td>
+                        <td className="py-3.5 px-4 text-right">{formatBRL(item.receita_bruta)}</td>
+                        <td className="py-3.5 px-4 text-right font-mono font-bold text-rose-500">
+                          {item.percentual_inadimplencia.toFixed(1).replace(".", ",")}%
+                        </td>
+                        <td className="py-3.5 px-4 text-right font-bold text-rose-600">{formatBRL(item.valor_inadimplente)}</td>
+                        <td className="py-3.5 px-4 text-right font-bold text-emerald-600">{formatBRL(item.receita_liquida)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr className="bg-slate-50/80 border-t-2 border-slate-200/80 font-bold text-slate-800 text-xs">
+                      <td className="py-3 px-4">Total de Perdas</td>
+                      <td className="py-3 px-4 text-right">
+                        {formatBRL(orcamentoConsolidado?.inadimplencia.reduce((sum: number, item: any) => sum + item.receita_bruta, 0) || 0)}
+                      </td>
+                      <td className="py-3 px-4 text-right font-mono text-rose-500">
+                        {((inadiTotal / (orcamentoConsolidado?.inadimplencia.reduce((sum: number, item: any) => sum + item.receita_bruta, 0) || 1)) * 100).toFixed(1).replace(".", ",")}%
+                      </td>
+                      <td className="py-3 px-4 text-right text-rose-600 font-extrabold">{formatBRL(inadiTotal)}</td>
+                      <td className="py-3 px-4 text-right text-emerald-600 font-extrabold">
+                        {formatBRL((orcamentoConsolidado?.inadimplencia.reduce((sum: number, item: any) => sum + item.receita_liquida, 0) || 0))}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-100/60 text-xs text-amber-950 font-bold leading-relaxed">
+                A inadimplência projetada estima a perda de receita com base em dados históricos e na perda de arrecadação esperada. Para o IRRF, é considerada uma perda estimada fixa de 23% de retenção na fonte sobre a folha bruta.
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

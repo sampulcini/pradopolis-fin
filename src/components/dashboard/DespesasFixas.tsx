@@ -475,7 +475,7 @@ export function DespesasFixas() {
             <div className="p-3 rounded-2xl bg-violet-50/40 border border-violet-100/50">
               <span className="font-extrabold text-violet-700 block">Folha Salarial</span>
               <span className="text-[10px] font-semibold text-slate-500 block mt-0.5">
-                Custos com folha e encargos fixados em <strong>R$ 5.998.690,00</strong> mensais de Janeiro a Novembro. Em Dezembro, há o provisionamento/pagamento de 13º salário totalizando <strong>R$ 7.198.428,00</strong>.
+                Custos reais com folha e encargos. De Janeiro a Abril fixados em <strong>R$ 6.120.055,45</strong> e de Maio a Novembro em <strong>R$ 6.386.277,86</strong> mensais. Em Dezembro, há o pagamento de 13º salário totalizando <strong>R$ 10.028.664,25</strong>.
               </span>
             </div>
 

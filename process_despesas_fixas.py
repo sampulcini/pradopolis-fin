@@ -34,7 +34,7 @@ def clean_text(text):
     return text
 
 def process_despesas_fixas():
-    csv_path = 'data/contratos2026-2.csv'
+    csv_path = 'data/contratos2026.csv'
     if not os.path.exists(csv_path):
         print(f"Error: {csv_path} not found!")
         return
@@ -124,9 +124,12 @@ def process_despesas_fixas():
         for m in range(12):
             contratos_mensal[m] += c['cronograma'][m]
             
-    # Fixed corporate costs definition
-    folha_mensal_padrao = 5798690.00 + 200000.00  # R$ 5.998.690,00
-    folha_mensal_dezembro = 7198428.00            # Dec pico (13º salário)
+    # Fixed corporate costs definition - Real month-by-month 2026 payroll data
+    folha_real_2026 = {
+        1: 6120055.45, 2: 6120055.45, 3: 6120055.45, 4: 6120055.45,
+        5: 6386277.86, 6: 6386277.86, 7: 6386277.86, 8: 6386277.86,
+        9: 6386277.86, 10: 6386277.86, 11: 6386277.86, 12: 10028664.25
+    }
     auxilio_mensal = 1059300.00
     ingesp_mensal = 500000.00
     
@@ -138,7 +141,7 @@ def process_despesas_fixas():
     total_contratos = 0.0
     
     for m in range(1, 13):
-        folha_m = folha_mensal_dezembro if m == 12 else folha_mensal_padrao
+        folha_m = folha_real_2026.get(m, 0.0)
         auxilio_m = auxilio_mensal
         ingesp_m = ingesp_mensal
         contrato_m = contratos_mensal[m - 1]
