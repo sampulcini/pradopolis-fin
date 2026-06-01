@@ -29,35 +29,35 @@ const ldoData: PlanningTask[] = [
     etapa: "Alinhamento pós-PPA",
     atividade: "Análise da LDO anterior e definição das metas fiscais do exercício",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Junho",
     etapa: "Proposta técnica inicial",
     atividade: "Elaboração da minuta da LDO com base no PPA e nas prioridades da gestão",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Julho",
     etapa: "Revisão e complementação",
     atividade: "Ajustes técnicos e integração com os setores",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Até 10 de Agosto",
     etapa: "Audiência pública",
     atividade: "Realização da audiência pública sobre a LDO",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Até 20 de Agosto",
     etapa: "Entrega à Câmara",
     atividade: "Protocolo do Projeto de Lei do LDO na Câmara Municipal",
     responsavel: "Diretor de Finanças",
-    concluido: true
+    concluido: false
   }
 ];
 
@@ -67,28 +67,28 @@ const loaData: PlanningTask[] = [
     etapa: "Coleta de dados e estimativas",
     atividade: "Levantamento das receitas, despesas, emendas e demandas por unidade orçamentária",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Agosto",
     etapa: "Elaboração da proposta",
     atividade: "Redação técnica da LOA e organização dos anexos e quadros",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Até 10 de Setembro",
     etapa: "Audiência pública",
     atividade: "Realização da audiência pública sobre a proposta orçamentária",
     responsavel: "ALEX MORONTA , SAMUEL PULCINI",
-    concluido: true
+    concluido: false
   },
   {
     periodo: "Até 20 de Setembro",
     etapa: "Entrega à Câmara",
     atividade: "Protocolo do Projeto de Lei da LOA na Câmara Municipal",
     responsavel: "Diretor de Finanças",
-    concluido: true
+    concluido: false
   }
 ];
 
@@ -100,6 +100,19 @@ export function Planejamento2027() {
   const tabDesc = activeTab === "ldo" 
     ? "Estabelece as metas e prioridades da administração pública, orientando a elaboração da LOA."
     : "Estima as receitas e fixa as despesas para o exercício financeiro subsequente.";
+
+  // Dynamic progress calculations
+  const totalLdo = ldoData.length;
+  const completedLdo = ldoData.filter(t => t.concluido).length;
+  const isLdoCompleted = completedLdo === totalLdo;
+
+  const totalLoa = loaData.length;
+  const completedLoa = loaData.filter(t => t.concluido).length;
+  const isLoaCompleted = completedLoa === totalLoa;
+
+  const overallProgress = Math.round(
+    ((completedLdo + completedLoa) / (totalLdo + totalLoa)) * 100
+  );
 
   return (
     <div className="w-full max-w-screen-2xl mx-auto px-6 py-6 pb-40">
@@ -113,7 +126,7 @@ export function Planejamento2027() {
         </div>
       </div>
 
-      {/* Overview Progress Card (Bento Grid Style) */}
+      {/* Overview Progress Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Status Card */}
         <div className="lg:col-span-2 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6 flex flex-col justify-between relative overflow-hidden">
@@ -121,46 +134,58 @@ export function Planejamento2027() {
           <div>
             <div className="flex items-center gap-2 text-violet-600 font-extrabold text-xs uppercase tracking-wider mb-2">
               <Sparkles className="w-4.5 h-4.5" />
-              Status de Entrega
+              Status de Elaboração
             </div>
             <h3 className="text-2xl font-black text-slate-800 tracking-tight">Instrumentos de Planejamento 2027</h3>
             <p className="text-slate-500 text-xs font-semibold mt-1">
-              LOA e LDO elaboradas com participação social e entregues com sucesso ao Poder Legislativo dentro do prazo legal.
+              Acompanhe o cronograma de formulação, realização de audiências públicas e protocolo legislativo.
             </p>
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center font-bold text-xl shadow-inner">
-                100%
+                {overallProgress}%
               </div>
               <div>
                 <span className="text-xs font-bold text-slate-500 block">Status Geral</span>
-                <span className="text-xs font-black text-emerald-600 uppercase tracking-wide">Concluído & Protocolado</span>
+                <span className={`text-xs font-black uppercase tracking-wide ${overallProgress === 100 ? "text-emerald-600" : "text-amber-600"}`}>
+                  {overallProgress === 100 ? "Concluído & Protocolado" : "Em Elaboração"}
+                </span>
               </div>
             </div>
 
             <div className="h-10 w-[1px] bg-slate-200 hidden sm:block" />
 
+            {/* LDO Badge */}
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-inner">
-                <CheckCircle2 className="w-6 h-6" />
+              <div className={`h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner ${
+                isLdoCompleted ? "bg-emerald-100 text-emerald-600" : "bg-amber-50 text-amber-500 border border-amber-100"
+              }`}>
+                {isLdoCompleted ? <CheckCircle2 className="w-6 h-6" /> : <Clock className="w-5 h-5 animate-pulse" />}
               </div>
               <div>
                 <span className="text-xs font-bold text-slate-500 block">LDO 2027</span>
-                <span className="text-xs font-black text-slate-700">Entregue em 20 de Agosto</span>
+                <span className="text-xs font-black text-slate-700">
+                  {isLdoCompleted ? "Entregue em 20 de Agosto" : "Prazo: Até 20 de Agosto"}
+                </span>
               </div>
             </div>
 
             <div className="h-10 w-[1px] bg-slate-200 hidden sm:block" />
 
+            {/* LOA Badge */}
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-inner">
-                <CheckCircle2 className="w-6 h-6" />
+              <div className={`h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner ${
+                isLoaCompleted ? "bg-emerald-100 text-emerald-600" : "bg-amber-50 text-amber-500 border border-amber-100"
+              }`}>
+                {isLoaCompleted ? <CheckCircle2 className="w-6 h-6" /> : <Clock className="w-5 h-5 animate-pulse" />}
               </div>
               <div>
                 <span className="text-xs font-bold text-slate-500 block">LOA 2027</span>
-                <span className="text-xs font-black text-slate-700">Entregue em 20 de Setembro</span>
+                <span className="text-xs font-black text-slate-700">
+                  {isLoaCompleted ? "Entregue em 20 de Setembro" : "Prazo: Até 20 de Setembro"}
+                </span>
               </div>
             </div>
           </div>
@@ -214,7 +239,7 @@ export function Planejamento2027() {
 
       {/* Main Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Timeline View (Left side) */}
+        {/* Timeline View */}
         <div className="lg:col-span-8 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-6 sm:p-8">
           <div className="mb-8">
             <h3 className="text-xl font-black text-slate-800 tracking-tight">{tabTitle}</h3>
@@ -235,8 +260,12 @@ export function Planejamento2027() {
                   className="relative group"
                 >
                   {/* Status Indicator Circle */}
-                  <span className="absolute -left-[35px] top-1 h-6 w-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center ring-4 ring-white shadow-sm border border-emerald-200">
-                    ✓
+                  <span className={`absolute -left-[35px] top-1 h-6 w-6 rounded-full flex items-center justify-center ring-4 ring-white shadow-sm transition-all duration-300 ${
+                    task.concluido 
+                      ? "bg-emerald-100 text-emerald-600 border border-emerald-200" 
+                      : "bg-slate-100 text-slate-400 border border-slate-200"
+                  }`}>
+                    {task.concluido ? "✓" : <Clock className="w-3 h-3 text-slate-400" />}
                   </span>
 
                   <div className="bg-white/60 hover:bg-white/90 border border-slate-100 hover:border-violet-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300">
@@ -249,8 +278,12 @@ export function Planejamento2027() {
                           {task.etapa}
                         </h4>
                       </div>
-                      <span className="text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-0.5 select-none shrink-0">
-                        Concluído
+                      <span className={`text-[10px] font-bold border rounded-full px-2.5 py-0.5 select-none shrink-0 ${
+                        task.concluido 
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
+                          : "bg-slate-50 text-slate-500 border-slate-200"
+                      }`}>
+                        {task.concluido ? "Concluído" : "Aguardando"}
                       </span>
                     </div>
 
@@ -273,7 +306,7 @@ export function Planejamento2027() {
           </div>
         </div>
 
-        {/* Sidebar Info/Metrics (Right side) */}
+        {/* Sidebar Info/Metrics */}
         <div className="lg:col-span-4 flex flex-col gap-6">
           {/* Summary stats */}
           <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6">
@@ -287,12 +320,14 @@ export function Planejamento2027() {
 
               <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50/50 border border-emerald-100/50">
                 <span className="text-xs font-bold text-slate-500">Concluídas</span>
-                <span className="text-sm font-black text-emerald-600">{currentTasks.filter(t => t.concluido).length}</span>
+                <span className="text-sm font-black text-emerald-650">{currentTasks.filter(t => t.concluido).length}</span>
               </div>
 
               <div className="flex items-center justify-between p-3 rounded-2xl bg-blue-50/50 border border-blue-100/50">
                 <span className="text-xs font-bold text-slate-500">Percentual Executado</span>
-                <span className="text-sm font-black text-blue-600">100%</span>
+                <span className="text-sm font-black text-blue-600">
+                  {Math.round((currentTasks.filter(t => t.concluido).length / currentTasks.length) * 100)}%
+                </span>
               </div>
             </div>
           </div>
