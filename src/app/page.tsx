@@ -9,6 +9,7 @@ import { OrcamentoDashboard } from "@/components/dashboard/OrcamentoDashboard";
 import { DespesasFixas } from "@/components/dashboard/DespesasFixas";
 import { DocumentosViewer } from "@/components/dashboard/DocumentosViewer";
 import { Configuracoes } from "@/components/dashboard/Configuracoes";
+import { Planejamento2027 } from "@/components/dashboard/Planejamento2027";
 import { LogOut } from "lucide-react";
 
 export default function Home() {
@@ -86,6 +87,7 @@ export default function Home() {
         {activeTab === "receita" && <PrevisaoReceita />}
         {activeTab === "despesas" && <DespesasFixas />}
         {activeTab === "orcamento" && <OrcamentoDashboard />}
+        {activeTab === "planejamento" && <Planejamento2027 />}
         {activeTab === "documentos" && <DocumentosViewer onBack={() => setActiveTab("home")} />}
         {activeTab === "settings" && <Configuracoes user={user} />}
         {activeTab !== "home" && activeTab !== "receita" && activeTab !== "despesas" && activeTab !== "orcamento" && activeTab !== "documentos" && activeTab !== "settings" && (

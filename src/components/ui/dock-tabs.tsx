@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { Home, PieChart, TrendingDown, Landmark, FileText, Settings, Users, Calculator } from 'lucide-react'
+import { Home, PieChart, TrendingDown, Landmark, FileText, Settings, Users, Calculator, Calendar } from 'lucide-react'
 
 interface DockItem {
   id: string
@@ -18,6 +18,7 @@ const dockItems: DockItem[] = [
   { id: "receita", name: "Arrecadação", icon: <Landmark />, color: "bg-emerald-500" },
   { id: "despesas", name: "Despesas Fixas", icon: <TrendingDown />, color: "bg-rose-500" },
   { id: "orcamento", name: "Orçamento", icon: <PieChart />, color: "bg-blue-500" },
+  { id: "planejamento", name: "Planejamento 2027", icon: <Calendar />, color: "bg-violet-600" },
   { id: "documentos", name: "Documentos", icon: <FileText />, color: "bg-amber-500" },
   { id: "settings", name: "Configurações", icon: <Settings />, color: "bg-slate-500" },
 ]
