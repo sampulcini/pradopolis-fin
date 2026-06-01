@@ -478,8 +478,8 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                     <span className="text-[10px] text-slate-400 font-semibold block">Orçamento Líquido Anual</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-sm font-black text-blue-600 block">
+                <div className="text-right shrink-0">
+                  <span className="text-sm font-black text-blue-600 whitespace-nowrap">
                     + <AnimatedNumber value={receitaAjustada} />
                   </span>
                 </div>
@@ -503,8 +503,8 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                     <span className="text-[10px] text-slate-400 font-semibold block">Custo de Custeio e Pessoal</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-sm font-black text-rose-600 block">
+                <div className="text-right shrink-0">
+                  <span className="text-sm font-black text-rose-600 whitespace-nowrap">
                     − <AnimatedNumber value={despesaAjustada} />
                   </span>
                 </div>
@@ -518,28 +518,28 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
               </div>
 
               {/* Card 3: Perda */}
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-amber-50/50 border border-amber-100/50 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+              <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-amber-50/50 border border-amber-100/50 shadow-sm">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-9 w-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
                     <AlertCircle className="w-5 h-5" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block">Perda (Inadimplência)</span>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-extrabold text-slate-700 uppercase tracking-wider block truncate">Perda (Inadimplência)</span>
                       {activeYear === "2026" && (
                         <button
                           onClick={() => setShowInadimplenciaModal(true)}
-                          className="px-2 py-0.5 text-[9px] font-black rounded-lg bg-amber-500 hover:bg-amber-600 text-white transition-colors cursor-pointer border-0 shadow-sm"
+                          className="px-2.5 py-0.5 text-[9px] font-extrabold rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 border border-amber-500/20 transition-all cursor-pointer shadow-sm select-none"
                         >
                           Saiba mais
                         </button>
                       )}
                     </div>
-                    <span className="text-[10px] text-slate-400 font-semibold block">Inadimplência Projetada</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">Inadimplência Projetada</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-sm font-black text-amber-600 block">
+                <div className="text-right shrink-0">
+                  <span className="text-sm font-black text-amber-600 whitespace-nowrap">
                     − {activeYear === "2026" ? <AnimatedNumber value={inadiTotal} /> : "N/A"}
                   </span>
                 </div>
@@ -576,8 +576,8 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                     </span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className={`text-base font-black ${saldoAjustado < 0 ? "text-rose-600 font-extrabold" : "text-emerald-600 font-extrabold"}`}>
+                <div className="text-right shrink-0">
+                  <span className={`text-base font-black whitespace-nowrap ${saldoAjustado < 0 ? "text-rose-600 font-extrabold" : "text-emerald-600 font-extrabold"}`}>
                     {saldoAjustado < 0 ? "-" : ""} {formatBRL(Math.abs(saldoAjustado))}
                   </span>
                 </div>
