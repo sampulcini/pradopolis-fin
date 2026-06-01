@@ -154,7 +154,8 @@ def process_budget_data():
         9: 5904544.97, 10: 6030456.85, 11: 6100283.21, 12: 9670493.30
     }
     
-    alimentacao_mensal = 1059300.00
+    alimentacao_real_2026 = {m: 985149.00 if m <= 4 else round(985149.00 * 1.07, 2) for m in range(1, 13)}
+    alimentacao_mensal_2025 = round(985149.00 * 0.95, 2)
     ingesp_mensal = 500000.00
     
     months_pt = {
@@ -179,7 +180,8 @@ def process_budget_data():
         total_folha_2026 += folha_m
         
         # Despesa fixa mensal = Folha + Alimentação + INGESP + Valor dinâmico do contrato do mês
-        desp = folha_m + alimentacao_mensal + ingesp_mensal + contrato_m
+        auxilio_m = alimentacao_real_2026.get(m, 0.0)
+        desp = folha_m + auxilio_m + ingesp_mensal + contrato_m
         
         total_receita_2026 += rec
         total_despesa_2026 += desp
@@ -199,7 +201,7 @@ def process_budget_data():
     despesas_categorias_2026 = [
         {"categoria": "Folha Salarial", "valor": total_folha_2026},
         {"categoria": "Contratos de Prestação de Serviços", "valor": total_contratos_2026},
-        {"categoria": "Auxílio Alimentação", "valor": alimentacao_mensal * 12},
+        {"categoria": "Auxílio Alimentação", "valor": round(sum(alimentacao_real_2026.values()), 2)},
         {"categoria": "Pagamento INGESP INNOVARE", "valor": ingesp_mensal * 12}
     ]
     # Ordenar decrescente
@@ -226,7 +228,7 @@ def process_budget_data():
         contrato_m_25 = round(contratos_mensal.get(m, 0.0) * 0.93, 2) # custo de contratos ligeiramente menor em 2025
         folha_25 = folha_real_2025.get(m, 0.0)
         total_folha_2025 += folha_25
-        desp_25 = folha_25 + (alimentacao_mensal * 0.95) + (ingesp_mensal * 0.95) + contrato_m_25
+        desp_25 = folha_25 + alimentacao_mensal_2025 + (ingesp_mensal * 0.95) + contrato_m_25
         
         total_receita_2025 += rec_25
         total_despesa_2025 += desp_25
@@ -244,7 +246,7 @@ def process_budget_data():
     despesas_categorias_2025 = [
         {"categoria": "Folha Salarial", "valor": round(total_folha_2025, 2)},
         {"categoria": "Contratos de Prestação de Serviços", "valor": round(total_contratos_2026 * 0.93, 2)},
-        {"categoria": "Auxílio Alimentação", "valor": round(alimentacao_mensal * 0.95 * 12, 2)},
+        {"categoria": "Auxílio Alimentação", "valor": round(alimentacao_mensal_2025 * 12, 2)},
         {"categoria": "Pagamento INGESP INNOVARE", "valor": round(ingesp_mensal * 0.95 * 12, 2)}
     ]
     despesas_categorias_2025 = sorted(despesas_categorias_2025, key=lambda x: x['valor'], reverse=True)

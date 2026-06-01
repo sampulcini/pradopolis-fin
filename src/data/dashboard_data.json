@@ -7,94 +7,94 @@
     "2025": {
       "resumo": {
         "receita_total": 93374155.31,
-        "despesa_total": 109144543.32,
-        "indice_medio": 116.89,
-        "saldo_total": -15770388.01
+        "despesa_total": 108299221.92,
+        "indice_medio": 115.98,
+        "saldo_total": -14925066.61
       },
       "mensal": [
         {
           "mes_num": 1,
           "mes_nome": "Janeiro",
           "receita": 8992094.84,
-          "despesa": 8897915.32,
-          "indice": 98.95
+          "despesa": 8827471.87,
+          "indice": 98.17
         },
         {
           "mes_num": 2,
           "mes_nome": "Fevereiro",
           "receita": 7508148.17,
-          "despesa": 8466680.72,
-          "indice": 112.77
+          "despesa": 8396237.27,
+          "indice": 111.83
         },
         {
           "mes_num": 3,
           "mes_nome": "Março",
           "receita": 6666536.31,
-          "despesa": 8679467.42,
-          "indice": 130.19
+          "despesa": 8609023.969999999,
+          "indice": 129.14
         },
         {
           "mes_num": 4,
           "mes_nome": "Abril",
           "receita": 7729149.51,
-          "despesa": 8651121.21,
-          "indice": 111.93
+          "despesa": 8580677.76,
+          "indice": 111.02
         },
         {
           "mes_num": 5,
           "mes_nome": "Maio",
           "receita": 7436619.66,
-          "despesa": 8873433.190000001,
-          "indice": 119.32
+          "despesa": 8802989.74,
+          "indice": 118.37
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
           "receita": 6038066.34,
-          "despesa": 9161734.71,
-          "indice": 151.73
+          "despesa": 9091291.26,
+          "indice": 150.57
         },
         {
           "mes_num": 7,
           "mes_nome": "Julho",
           "receita": 9417982.76,
-          "despesa": 8942289.18,
-          "indice": 94.95
+          "despesa": 8871845.73,
+          "indice": 94.2
         },
         {
           "mes_num": 8,
           "mes_nome": "Agosto",
           "receita": 6589338.76,
-          "despesa": 8747753.66,
-          "indice": 132.76
+          "despesa": 8677310.21,
+          "indice": 131.69
         },
         {
           "mes_num": 9,
           "mes_nome": "Setembro",
           "receita": 7684578.51,
-          "despesa": 8738595.54,
-          "indice": 113.72
+          "despesa": 8668152.09,
+          "indice": 112.8
         },
         {
           "mes_num": 10,
           "mes_nome": "Outubro",
           "receita": 7898617.48,
-          "despesa": 8818207.29,
-          "indice": 111.64
+          "despesa": 8747763.84,
+          "indice": 110.75
         },
         {
           "mes_num": 11,
           "mes_nome": "Novembro",
           "receita": 6467407.26,
-          "despesa": 8855710.52,
-          "indice": 136.93
+          "despesa": 8785267.07,
+          "indice": 135.84
         },
         {
           "mes_num": 12,
           "mes_nome": "Dezembro",
           "receita": 10945615.71,
-          "despesa": 12311634.56,
-          "indice": 112.48
+          "despesa": 12241191.110000001,
+          "indice": 111.84
         }
       ],
       "receitas_por_categoria": [
@@ -126,7 +126,7 @@
         },
         {
           "categoria": "Auxílio Alimentação",
-          "valor": 12076020.0
+          "valor": 11230698.6
         },
         {
           "categoria": "Pagamento INGESP INNOVARE",
@@ -137,94 +137,94 @@
     "2026": {
       "resumo": {
         "receita_total": 107269774.43,
-        "despesa_total": 116363684.93,
-        "indice_medio": 108.48,
-        "saldo_total": -9093910.5
+        "despesa_total": 116025556.37,
+        "indice_medio": 108.16,
+        "saldo_total": -8755781.94
       },
       "mensal": [
         {
           "mes_num": 1,
           "mes_nome": "Janeiro",
           "receita": 9383668.31,
-          "despesa": 9136022.870000001,
-          "indice": 97.36
+          "despesa": 9061871.870000001,
+          "indice": 96.57
         },
         {
           "mes_num": 2,
           "mes_nome": "Fevereiro",
           "receita": 7255894.64,
-          "despesa": 9325072.89,
-          "indice": 128.52
+          "despesa": 9250921.89,
+          "indice": 127.5
         },
         {
           "mes_num": 3,
           "mes_nome": "Março",
           "receita": 8556606.24,
-          "despesa": 9347789.0,
-          "indice": 109.25
+          "despesa": 9273638.0,
+          "indice": 108.38
         },
         {
           "mes_num": 4,
           "mes_nome": "Abril",
           "receita": 8078266.83,
-          "despesa": 9322983.120000001,
-          "indice": 115.41
+          "despesa": 9248832.120000001,
+          "indice": 114.49
         },
         {
           "mes_num": 5,
           "mes_nome": "Maio",
           "receita": 9249417.3,
-          "despesa": 9634337.93,
-          "indice": 104.16
+          "despesa": 9629147.36,
+          "indice": 104.11
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
           "receita": 9249417.3,
-          "despesa": 9631337.91,
-          "indice": 104.13
+          "despesa": 9626147.34,
+          "indice": 104.07
         },
         {
           "mes_num": 7,
           "mes_nome": "Julho",
           "receita": 9249417.3,
-          "despesa": 9581952.84,
-          "indice": 103.6
+          "despesa": 9576762.27,
+          "indice": 103.54
         },
         {
           "mes_num": 8,
           "mes_nome": "Agosto",
           "receita": 9249417.3,
-          "despesa": 9483114.64,
-          "indice": 102.53
+          "despesa": 9477924.07,
+          "indice": 102.47
         },
         {
           "mes_num": 9,
           "mes_nome": "Setembro",
           "receita": 9249417.3,
-          "despesa": 9400110.73,
-          "indice": 101.63
+          "despesa": 9394920.16,
+          "indice": 101.57
         },
         {
           "mes_num": 10,
           "mes_nome": "Outubro",
           "receita": 9249417.3,
-          "despesa": 9350325.65,
-          "indice": 101.09
+          "despesa": 9345135.08,
+          "indice": 101.03
         },
         {
           "mes_num": 11,
           "mes_nome": "Novembro",
           "receita": 9249417.3,
-          "despesa": 9315569.59,
-          "indice": 100.72
+          "despesa": 9310379.02,
+          "indice": 100.66
         },
         {
           "mes_num": 12,
           "mes_nome": "Dezembro",
           "receita": 9249417.31,
-          "despesa": 12835067.76,
-          "indice": 138.77
+          "despesa": 12829877.19,
+          "indice": 138.71
         }
       ],
       "receitas_por_categoria": [
@@ -256,7 +256,7 @@
         },
         {
           "categoria": "Auxílio Alimentação",
-          "valor": 12711600.0
+          "valor": 12373471.44
         },
         {
           "categoria": "Pagamento INGESP INNOVARE",

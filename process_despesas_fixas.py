@@ -130,7 +130,7 @@ def process_despesas_fixas():
         5: 6386277.86, 6: 6386277.86, 7: 6386277.86, 8: 6386277.86,
         9: 6386277.86, 10: 6386277.86, 11: 6386277.86, 12: 10028664.25
     }
-    auxilio_mensal = 1059300.00
+    alimentacao_real_2026 = {m: 985149.00 if m <= 4 else round(985149.00 * 1.07, 2) for m in range(1, 13)}
     ingesp_mensal = 500000.00
     
     # Build monthly progression
@@ -142,7 +142,7 @@ def process_despesas_fixas():
     
     for m in range(1, 13):
         folha_m = folha_real_2026.get(m, 0.0)
-        auxilio_m = auxilio_mensal
+        auxilio_m = alimentacao_real_2026.get(m, 0.0)
         ingesp_m = ingesp_mensal
         contrato_m = contratos_mensal[m - 1]
         

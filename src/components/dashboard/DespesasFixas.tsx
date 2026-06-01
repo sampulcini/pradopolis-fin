@@ -483,7 +483,7 @@ export function DespesasFixas() {
             <div className="p-3 rounded-2xl bg-amber-50/40 border border-amber-100/50">
               <span className="font-extrabold text-amber-700 block">Auxílio Alimentação</span>
               <span className="text-[10px] font-semibold text-slate-500 block mt-0.5">
-                Pagamentos de ticket alimentação de servidores mantidos de forma constante em <strong>R$ 1.059.300,00</strong> por mês.
+                Pagamentos de ticket alimentação de servidores. De Janeiro a Abril fixados em <strong>R$ 985.149,00</strong> e de Maio a Dezembro com reajuste de 7% (<strong>R$ 1.054.109,43</strong>) mensais.
               </span>
             </div>
 
