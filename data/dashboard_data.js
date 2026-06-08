@@ -1,4 +1,5 @@
 const dashboardData = {
+  "last_updated": "08/06/2026 11:36:58",
   "years": [
     2025,
     2026

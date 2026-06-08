@@ -211,7 +211,14 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
       {/* Top Header / Year Selector (2025 removido) */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Recursos Próprios (Tesouro)</h2>
+          <h2 className="text-2xl font-bold text-slate-800 flex flex-wrap items-center gap-3">
+            Recursos Próprios (Tesouro)
+            {dbData.last_updated && (
+              <span className="text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 px-2.5 py-1 rounded-xl border border-slate-200/50">
+                Última Atualização: {dbData.last_updated}
+              </span>
+            )}
+          </h2>
           <p className="text-slate-500 text-sm">Visão geral da saúde fiscal e execução orçamentária do Tesouro em 2026</p>
         </div>
       </div>

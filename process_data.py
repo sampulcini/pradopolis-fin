@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+import datetime
 
 def clean_currency(val):
     if pd.isna(val) or val == ' R$  -   ' or str(val).strip() == '-':
@@ -263,6 +264,7 @@ def process_budget_data():
     
     # 5. Estrutura de Output para o Dashboard
     result = {
+        "last_updated": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
         "years": [2025, 2026],
         "data": {
             "2025": {

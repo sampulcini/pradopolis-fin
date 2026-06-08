@@ -15,7 +15,8 @@ import {
   Building,
   Info,
   Calendar,
-  Key
+  Key,
+  UserPlus
 } from "lucide-react";
 
 interface PendingUser {
@@ -36,6 +37,13 @@ export function Configuracoes({ user }: { user: UserProfile | null }) {
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [error, setError] = useState("");
   const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  // Form states for creating a new user
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserPassword, setNewUserPassword] = useState("");
+  const [newUserApproved, setNewUserApproved] = useState(true);
+  const [createUserLoading, setCreateUserLoading] = useState(false);
 
   const isAdmin = user?.email === "contabilidade@pradopolis.sp.gov.br";
 
@@ -110,6 +118,49 @@ export function Configuracoes({ user }: { user: UserProfile | null }) {
       setNotification({ message: err.message || "Erro de conexão.", type: "error" });
     } finally {
       setActionLoading(null);
+    }
+  };
+
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newUserName || !newUserEmail || !newUserPassword) {
+      setNotification({ message: "Preencha todos os campos obrigatórios.", type: "error" });
+      return;
+    }
+    if (newUserPassword.length < 6) {
+      setNotification({ message: "A senha deve ter no mínimo 6 caracteres.", type: "error" });
+      return;
+    }
+    
+    setCreateUserLoading(true);
+    setNotification(null);
+    try {
+      const res = await fetch("/api/auth/admin/create-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newUserName,
+          email: newUserEmail,
+          password: newUserPassword,
+          approved: newUserApproved,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Erro ao cadastrar servidor.");
+      }
+
+      setNotification({ message: data.message || "Servidor cadastrado com sucesso!", type: "success" });
+      setNewUserName("");
+      setNewUserEmail("");
+      setNewUserPassword("");
+      if (!newUserApproved) {
+        fetchPendingUsers();
+      }
+    } catch (err: any) {
+      setNotification({ message: err.message || "Erro de conexão.", type: "error" });
+    } finally {
+      setCreateUserLoading(false);
     }
   };
 
@@ -216,118 +267,209 @@ export function Configuracoes({ user }: { user: UserProfile | null }) {
         </div>
 
         {/* Right Side: Admin Permissions/Users Table */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-6">
           {isAdmin ? (
-            <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6 min-h-[400px] flex flex-col">
-              <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
-                <h3 className="text-sm font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                  <Users className="w-5 h-5 text-blue-500" />
-                  Cadastros de Servidores Aguardando Aprovação
-                </h3>
-                <span className="bg-blue-50 text-blue-600 text-xs font-black px-2.5 py-1 rounded-full">
-                  {pendingUsers.length} {pendingUsers.length === 1 ? "pendente" : "pendentes"}
-                </span>
+            <>
+              {/* Cadastros de Servidores Aguardando Aprovação */}
+              <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6 min-h-[300px] flex flex-col">
+                <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                  <h3 className="text-sm font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                    <Users className="w-5 h-5 text-blue-500" />
+                    Cadastros de Servidores Aguardando Aprovação
+                  </h3>
+                  <span className="bg-blue-50 text-blue-600 text-xs font-black px-2.5 py-1 rounded-full">
+                    {pendingUsers.length} {pendingUsers.length === 1 ? "pendente" : "pendentes"}
+                  </span>
+                </div>
+
+                {loading ? (
+                  <div className="flex-1 flex flex-col items-center justify-center py-12">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    <span className="text-slate-400 text-xs font-bold mt-3">Carregando solicitações...</span>
+                  </div>
+                ) : error ? (
+                  <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
+                    <AlertCircle className="w-10 h-10 text-rose-500 mb-3" />
+                    <h4 className="text-sm font-extrabold text-slate-700">Falha ao buscar usuários</h4>
+                    <p className="text-slate-400 text-xs font-medium max-w-md mt-1">{error}</p>
+                    <button 
+                      onClick={fetchPendingUsers} 
+                      className="mt-4 px-4 py-2 bg-blue-500 text-white text-xs font-bold rounded-xl shadow-md hover:bg-blue-600 transition-all"
+                    >
+                      Tentar Novamente
+                    </button>
+                  </div>
+                ) : pendingUsers.length === 0 ? (
+                  <div className="flex-1 flex flex-col items-center justify-center text-center py-16 bg-white/30 border border-dashed border-slate-200 rounded-2xl">
+                    <Clock className="w-12 h-12 text-slate-300 mb-3" />
+                    <h4 className="text-sm font-black text-slate-600">Nenhum cadastro pendente</h4>
+                    <p className="text-slate-400 text-xs font-medium max-w-sm mt-1 px-4">
+                      Todas as solicitações de registro de servidores municipais foram processadas e liberadas.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-slate-100">
+                          <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-wider">Servidor / E-mail</th>
+                          <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-wider hidden sm:table-cell">Data de Registro</th>
+                          <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-wider text-right">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        <AnimatePresence>
+                          {pendingUsers.map((pUser) => (
+                            <motion.tr 
+                              key={pUser.id}
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, x: -50 }}
+                              transition={{ duration: 0.2 }}
+                              className="group hover:bg-white/40"
+                            >
+                              <td className="py-4 pr-3">
+                                <div className="flex items-center gap-3">
+                                  <div className="h-9 w-9 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 shrink-0 font-bold text-xs uppercase">
+                                    {pUser.name.substring(0, 2)}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <span className="text-xs font-black text-slate-700 block truncate">{pUser.name}</span>
+                                    <span className="text-[10px] font-semibold text-slate-400 block truncate">{pUser.email}</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="py-4 pr-3 hidden sm:table-cell">
+                                <div className="flex items-center gap-1.5 text-slate-500 text-xs font-bold">
+                                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                                  <span>
+                                    {new Date(pUser.created_at).toLocaleDateString("pt-BR", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit"
+                                    })}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="py-4 text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <button
+                                    onClick={() => handleApprove(pUser.id)}
+                                    disabled={actionLoading !== null}
+                                    className="h-8 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-extrabold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shadow-emerald-500/10"
+                                  >
+                                    <Check className="w-3.5 h-3.5" />
+                                    <span className="hidden xs:inline">Aprovar</span>
+                                  </button>
+                                  <button
+                                    onClick={() => handleReject(pUser.id)}
+                                    disabled={actionLoading !== null}
+                                    className="h-8 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 disabled:opacity-50 text-white font-extrabold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shadow-rose-500/10"
+                                  >
+                                    <X className="w-3.5 h-3.5" />
+                                    <span className="hidden xs:inline">Rejeitar</span>
+                                  </button>
+                                </div>
+                              </td>
+                            </motion.tr>
+                          ))}
+                        </AnimatePresence>
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
-              {loading ? (
-                <div className="flex-1 flex flex-col items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                  <span className="text-slate-400 text-xs font-bold mt-3">Carregando solicitações...</span>
-                </div>
-              ) : error ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
-                  <AlertCircle className="w-10 h-10 text-rose-500 mb-3" />
-                  <h4 className="text-sm font-extrabold text-slate-700">Falha ao buscar usuários</h4>
-                  <p className="text-slate-400 text-xs font-medium max-w-md mt-1">{error}</p>
-                  <button 
-                    onClick={fetchPendingUsers} 
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white text-xs font-bold rounded-xl shadow-md hover:bg-blue-600 transition-all"
-                  >
-                    Tentar Novamente
-                  </button>
-                </div>
-              ) : pendingUsers.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center py-16 bg-white/30 border border-dashed border-slate-200 rounded-2xl">
-                  <Clock className="w-12 h-12 text-slate-300 mb-3" />
-                  <h4 className="text-sm font-black text-slate-600">Nenhum cadastro pendente</h4>
-                  <p className="text-slate-400 text-xs font-medium max-w-sm mt-1 px-4">
-                    Todas as solicitações de registro de servidores municipais foram processadas e liberadas.
-                  </p>
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-100">
-                        <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-wider">Servidor / E-mail</th>
-                        <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-wider hidden sm:table-cell">Data de Registro</th>
-                        <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-wider text-right">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                      <AnimatePresence>
-                        {pendingUsers.map((pUser) => (
-                          <motion.tr 
-                            key={pUser.id}
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, x: -50 }}
-                            transition={{ duration: 0.2 }}
-                            className="group hover:bg-white/40"
-                          >
-                            <td className="py-4 pr-3">
-                              <div className="flex items-center gap-3">
-                                <div className="h-9 w-9 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 shrink-0 font-bold text-xs uppercase">
-                                  {pUser.name.substring(0, 2)}
-                                </div>
-                                <div className="min-w-0">
-                                  <span className="text-xs font-black text-slate-700 block truncate">{pUser.name}</span>
-                                  <span className="text-[10px] font-semibold text-slate-400 block truncate">{pUser.email}</span>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="py-4 pr-3 hidden sm:table-cell">
-                              <div className="flex items-center gap-1.5 text-slate-500 text-xs font-bold">
-                                <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                                <span>
-                                  {new Date(pUser.created_at).toLocaleDateString("pt-BR", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit"
-                                  })}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="py-4 text-right">
-                              <div className="flex items-center justify-end gap-2">
-                                <button
-                                  onClick={() => handleApprove(pUser.id)}
-                                  disabled={actionLoading !== null}
-                                  className="h-8 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-extrabold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shadow-emerald-500/10"
-                                >
-                                  <Check className="w-3.5 h-3.5" />
-                                  <span className="hidden xs:inline">Aprovar</span>
-                                </button>
-                                <button
-                                  onClick={() => handleReject(pUser.id)}
-                                  disabled={actionLoading !== null}
-                                  className="h-8 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 disabled:opacity-50 text-white font-extrabold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shadow-rose-500/10"
-                                >
-                                  <X className="w-3.5 h-3.5" />
-                                  <span className="hidden xs:inline">Rejeitar</span>
-                                </button>
-                              </div>
-                            </td>
-                          </motion.tr>
-                        ))}
-                      </AnimatePresence>
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
+              {/* Cadastrar Novo Servidor */}
+              <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6">
+                <h3 className="text-sm font-extrabold text-slate-700 uppercase tracking-wider mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
+                  <UserPlus className="w-5 h-5 text-emerald-500" />
+                  Cadastrar Novo Servidor
+                </h3>
+
+                <form onSubmit={handleCreateUser} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="newUserName" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        Nome Completo
+                      </label>
+                      <input
+                        type="text"
+                        id="newUserName"
+                        value={newUserName}
+                        onChange={(e) => setNewUserName(e.target.value)}
+                        placeholder="Ex: Maria Silva"
+                        required
+                        className="bg-white/50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-750 transition-all"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="newUserEmail" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        E-mail Institucional
+                      </label>
+                      <input
+                        type="email"
+                        id="newUserEmail"
+                        value={newUserEmail}
+                        onChange={(e) => setNewUserEmail(e.target.value)}
+                        placeholder="Ex: servidor@pradopolis.sp.gov.br"
+                        required
+                        className="bg-white/50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-750 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="newUserPassword" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        Senha de Acesso (mín. 6 caracteres)
+                      </label>
+                      <input
+                        type="password"
+                        id="newUserPassword"
+                        value={newUserPassword}
+                        onChange={(e) => setNewUserPassword(e.target.value)}
+                        placeholder="••••••••"
+                        required
+                        minLength={6}
+                        className="bg-white/50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-750 transition-all"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-3 pt-4 md:pt-0 md:pl-4">
+                      <input
+                        type="checkbox"
+                        id="newUserApproved"
+                        checked={newUserApproved}
+                        onChange={(e) => setNewUserApproved(e.target.checked)}
+                        className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-slate-350 rounded cursor-pointer"
+                      />
+                      <label htmlFor="newUserApproved" className="text-xs font-bold text-slate-650 cursor-pointer select-none">
+                        Aprovar acesso imediatamente
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={createUserLoading}
+                      className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 transition-all cursor-pointer flex items-center gap-2"
+                    >
+                      {createUserLoading ? (
+                        <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Check className="w-4 h-4" />
+                      )}
+                      <span>Cadastrar Servidor</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </>
           ) : (
             <div className="rounded-3xl bg-white/70 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6 min-h-[400px]">
               <h3 className="text-sm font-extrabold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
