@@ -124,15 +124,16 @@ def process_budget_data():
         1: 9383668.31,  # Janeiro (Real)
         2: 7255894.64,  # Fevereiro (Real)
         3: 8556606.24,  # Março (Real)
-        4: 8078266.83   # Abril (Real)
+        4: 8078266.83,  # Abril (Real)
+        5: 8647043.46   # Maio (Real)
     }
     
-    # A diferença é distribuída igualmente entre os 8 meses restantes (Maio a Dezembro)
+    # A diferença é distribuída igualmente entre os 7 meses restantes (Junho a Dezembro)
     soma_real = sum(dados_arrecadacao_2026.values())
     diferenca = total_orcado_tesouro_2026 - soma_real
-    valor_estimado_mensal = round(diferenca / 8, 2)
+    valor_estimado_mensal = round(diferenca / 7, 2)
     
-    for m in range(5, 13):
+    for m in range(6, 13):
         dados_arrecadacao_2026[m] = valor_estimado_mensal
         
     # Ajuste de centavo no último mês (Dezembro) para bater perfeitamente o somatório

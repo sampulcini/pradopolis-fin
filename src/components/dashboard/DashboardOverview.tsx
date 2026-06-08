@@ -128,7 +128,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
     name: d.mes_nome.substring(0, 3),
     Arrecadacao: d.receita * (1 + receitaAjuste / 100),
     GastoFixo: d.despesa * (1 - despesaAjuste / 100),
-    isEstimativa: activeYear === "2026" && d.mes_num >= 5,
+    isEstimativa: activeYear === "2026" && d.mes_num >= 6,
   })) || [];
 
   // Composicao Chart Data Prep (Tesouro)

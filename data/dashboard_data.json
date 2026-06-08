@@ -173,58 +173,58 @@
         {
           "mes_num": 5,
           "mes_nome": "Maio",
-          "receita": 9249417.3,
+          "receita": 8647043.46,
           "despesa": 9629147.36,
-          "indice": 104.11
+          "indice": 111.36
         },
         {
           "mes_num": 6,
           "mes_nome": "Junho",
-          "receita": 9249417.3,
+          "receita": 9335470.71,
           "despesa": 9626147.34,
-          "indice": 104.07
+          "indice": 103.11
         },
         {
           "mes_num": 7,
           "mes_nome": "Julho",
-          "receita": 9249417.3,
+          "receita": 9335470.71,
           "despesa": 9576762.27,
-          "indice": 103.54
+          "indice": 102.58
         },
         {
           "mes_num": 8,
           "mes_nome": "Agosto",
-          "receita": 9249417.3,
+          "receita": 9335470.71,
           "despesa": 9477924.07,
-          "indice": 102.47
+          "indice": 101.53
         },
         {
           "mes_num": 9,
           "mes_nome": "Setembro",
-          "receita": 9249417.3,
+          "receita": 9335470.71,
           "despesa": 9394920.16,
-          "indice": 101.57
+          "indice": 100.64
         },
         {
           "mes_num": 10,
           "mes_nome": "Outubro",
-          "receita": 9249417.3,
+          "receita": 9335470.71,
           "despesa": 9345135.08,
-          "indice": 101.03
+          "indice": 100.1
         },
         {
           "mes_num": 11,
           "mes_nome": "Novembro",
-          "receita": 9249417.3,
+          "receita": 9335470.71,
           "despesa": 9310379.02,
-          "indice": 100.66
+          "indice": 99.73
         },
         {
           "mes_num": 12,
           "mes_nome": "Dezembro",
-          "receita": 9249417.31,
+          "receita": 9335470.69,
           "despesa": 12829877.19,
-          "indice": 138.71
+          "indice": 137.43
         }
       ],
       "receitas_por_categoria": [
