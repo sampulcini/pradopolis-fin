@@ -96,6 +96,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
   const [receitaAjuste, setReceitaAjuste] = useState(0); // em percentual (0 a 15)
   const [despesaAjuste, setDespesaAjuste] = useState(0); // em percentual (0 a 15)
   const [showInadimplenciaModal, setShowInadimplenciaModal] = useState(false);
+  const [viewMode, setViewMode] = useState<"anual" | "real">("anual");
 
   const yearData = dbData.data[activeYear];
   const orcamentoConsolidado = dbData.data.orcamento_consolidado;
@@ -122,6 +123,21 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
   const indiceVal = receitaLiquidaDisponivel > 0 
     ? (despesaAjustada / receitaLiquidaDisponivel) * 100 
     : 0;
+
+  const lastClosedMonth = 5; // Maio
+
+  // YTD (Jan-Mai) calculations
+  const ytdReceita = yearData?.mensal
+    .filter((d: any) => d.mes_num <= lastClosedMonth)
+    .reduce((sum: number, d: any) => sum + d.receita, 0) || 0;
+
+  const ytdDespesa = yearData?.mensal
+    .filter((d: any) => d.mes_num <= lastClosedMonth)
+    .reduce((sum: number, d: any) => sum + d.despesa, 0) || 0;
+
+  const ytdPerda = inadiTotal * (lastClosedMonth / 12);
+  const ytdSaldo = ytdReceita - ytdDespesa - ytdPerda;
+  const currentSaldo = viewMode === "real" ? ytdSaldo : saldoAjustado;
 
   // Monthly Chart Data Prep
   const monthlyData = yearData?.mensal.map((d: any) => ({
@@ -250,6 +266,14 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                   <p className="text-xs font-bold leading-relaxed">
                     {explanationText}
                   </p>
+                  {activeYear === "2026" && (
+                    <div className="mt-3 pt-3 border-t border-slate-200/50 flex flex-wrap justify-between items-center text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
+                      <span>Acumulado Real (Jan-Mai):</span>
+                      <span className="text-rose-600">
+                        Déficit de {formatBRL(Math.abs(ytdReceita - ytdDespesa))} (ou {formatBRL(Math.abs(ytdSaldo))} com perda proj.)
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -465,7 +489,23 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
           <div className="flex flex-col gap-6">
             {/* Deficit Flow Card Stack */}
             <div className="flex flex-col gap-3 bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 rounded-3xl">
-              <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-2">Cálculo do Déficit/Saldo do Tesouro</h4>
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider">Cálculo do Déficit/Saldo</h4>
+                <div className="flex bg-slate-100/80 p-0.5 rounded-xl border border-slate-200/50 text-[9px] font-black uppercase tracking-wider">
+                  <button
+                    onClick={() => setViewMode("anual")}
+                    className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${viewMode === "anual" ? "bg-white text-slate-800 shadow-sm border border-slate-200/20" : "text-slate-400 hover:text-slate-600"}`}
+                  >
+                    Anual
+                  </button>
+                  <button
+                    onClick={() => setViewMode("real")}
+                    className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${viewMode === "real" ? "bg-white text-slate-800 shadow-sm border border-slate-200/20" : "text-slate-400 hover:text-slate-650"}`}
+                  >
+                    Jan-Mai
+                  </button>
+                </div>
+              </div>
               
               {/* Card 1: Receita */}
               <div className="flex items-center justify-between p-4 rounded-2xl bg-blue-50/50 border border-blue-100/50 shadow-sm">
@@ -480,7 +520,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-sm font-black text-blue-600 whitespace-nowrap">
-                    + <AnimatedNumber value={receitaAjustada} />
+                    + <AnimatedNumber value={viewMode === "real" ? ytdReceita : receitaAjustada} />
                   </span>
                 </div>
               </div>
@@ -505,7 +545,7 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-sm font-black text-rose-600 whitespace-nowrap">
-                    − <AnimatedNumber value={despesaAjustada} />
+                    − <AnimatedNumber value={viewMode === "real" ? ytdDespesa : despesaAjustada} />
                   </span>
                 </div>
               </div>
@@ -535,12 +575,14 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
                         </button>
                       )}
                     </div>
-                    <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">Inadimplência Projetada</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
+                      {viewMode === "real" ? "Perda Proporcional Jan-Mai" : "Inadimplência Projetada"}
+                    </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-sm font-black text-amber-600 whitespace-nowrap">
-                    − {activeYear === "2026" ? <AnimatedNumber value={inadiTotal} /> : "N/A"}
+                    − {activeYear === "2026" ? <AnimatedNumber value={viewMode === "real" ? ytdPerda : inadiTotal} /> : "N/A"}
                   </span>
                 </div>
               </div>
@@ -554,31 +596,31 @@ export function DashboardOverview({ onNavigate }: { onNavigate?: (tab: string) =
 
               {/* Card 4: Saldo / Déficit */}
               <div className={`flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 ${
-                saldoAjustado < 0 
+                currentSaldo < 0 
                   ? "bg-rose-50 border-rose-300 shadow-[0_4px_20px_rgba(244,63,94,0.06)]" 
                   : "bg-emerald-50 border-emerald-300 shadow-[0_4px_20px_rgba(16,185,129,0.06)]"
               }`}>
                 <div className="flex items-center gap-3">
                   <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${
-                    saldoAjustado < 0 ? "bg-rose-100 text-rose-600 animate-pulse" : "bg-emerald-100 text-emerald-600"
+                    currentSaldo < 0 ? "bg-rose-100 text-rose-600 animate-pulse" : "bg-emerald-100 text-emerald-600"
                   }`}>
                     <Wallet className="w-5 h-5" />
                   </div>
                   <div>
                     <span className="text-xs font-black uppercase tracking-wider block text-slate-800">
-                      {saldoAjustado < 0 ? "Déficit do Tesouro" : "Saldo do Tesouro"}
+                      {currentSaldo < 0 ? "Déficit do Tesouro" : "Saldo do Tesouro"}
                     </span>
                     <span className="text-[10px] font-bold text-slate-500 block mt-0.5 animate-pulse">
                       {activeYear === "2026"
-                        ? `${saldoAjustado < 0 ? "Déficit" : "Superávit"} real deduzidas as perdas`
+                        ? `${currentSaldo < 0 ? "Déficit" : "Superávit"} ${viewMode === "real" ? "real acumulado" : "real projetado"} deduzidas as perdas`
                         : "Saldo para investimentos"
                       }
                     </span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className={`text-base font-black whitespace-nowrap ${saldoAjustado < 0 ? "text-rose-600 font-extrabold" : "text-emerald-600 font-extrabold"}`}>
-                    {saldoAjustado < 0 ? "-" : ""} {formatBRL(Math.abs(saldoAjustado))}
+                  <span className={`text-base font-black whitespace-nowrap ${currentSaldo < 0 ? "text-rose-600 font-extrabold" : "text-emerald-600 font-extrabold"}`}>
+                    {currentSaldo < 0 ? "-" : ""} {formatBRL(Math.abs(currentSaldo))}
                   </span>
                 </div>
               </div>

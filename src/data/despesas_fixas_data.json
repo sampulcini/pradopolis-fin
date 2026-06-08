@@ -1,127 +1,127 @@
 {
   "resumo_geral": {
-    "total_despesas_fixas_anual": 116025556.37,
-    "total_despesas_fixas_mensal": 9668796.36,
+    "total_despesas_fixas_anual": 113965758.45,
+    "total_despesas_fixas_mensal": 9497146.54,
     "folha_anual": 79212831.07,
-    "contratos_anual": 18439253.86,
+    "contratos_anual": 16379455.94,
     "auxilio_anual": 12373471.44,
     "ingesp_anual": 6000000.0,
-    "num_contratos_ativos": 216
+    "num_contratos_ativos": 211
   },
   "progressao_mensal": [
     {
       "mes_num": 1,
       "mes_nome": "Janeiro",
       "folha": 6120055.45,
-      "contratos": 1456667.42,
+      "contratos": 1301684.26,
       "auxilio": 985149.0,
       "ingesp": 500000.0,
-      "total": 9061871.87
+      "total": 8906888.71
     },
     {
       "mes_num": 2,
       "mes_nome": "Fevereiro",
       "folha": 6120055.45,
-      "contratos": 1645717.44,
+      "contratos": 1490734.28,
       "auxilio": 985149.0,
       "ingesp": 500000.0,
-      "total": 9250921.89
+      "total": 9095938.73
     },
     {
       "mes_num": 3,
       "mes_nome": "Março",
       "folha": 6120055.45,
-      "contratos": 1668433.55,
+      "contratos": 1493450.39,
       "auxilio": 985149.0,
       "ingesp": 500000.0,
-      "total": 9273638.0
+      "total": 9098654.84
     },
     {
       "mes_num": 4,
       "mes_nome": "Abril",
       "folha": 6120055.45,
-      "contratos": 1643627.67,
+      "contratos": 1468644.51,
       "auxilio": 985149.0,
       "ingesp": 500000.0,
-      "total": 9248832.12
+      "total": 9073848.96
     },
     {
       "mes_num": 5,
       "mes_nome": "Maio",
       "folha": 6386277.86,
-      "contratos": 1688760.07,
+      "contratos": 1513776.91,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9629147.36
+      "total": 9454164.2
     },
     {
       "mes_num": 6,
       "mes_nome": "Junho",
       "folha": 6386277.86,
-      "contratos": 1685760.05,
+      "contratos": 1510776.89,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9626147.34
+      "total": 9451164.18
     },
     {
       "mes_num": 7,
       "mes_nome": "Julho",
       "folha": 6386277.86,
-      "contratos": 1636374.98,
+      "contratos": 1461391.82,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9576762.27
+      "total": 9401779.11
     },
     {
       "mes_num": 8,
       "mes_nome": "Agosto",
       "folha": 6386277.86,
-      "contratos": 1537536.78,
+      "contratos": 1362553.62,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9477924.07
+      "total": 9302940.91
     },
     {
       "mes_num": 9,
       "mes_nome": "Setembro",
       "folha": 6386277.86,
-      "contratos": 1454532.87,
+      "contratos": 1279549.71,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9394920.16
+      "total": 9219937.0
     },
     {
       "mes_num": 10,
       "mes_nome": "Outubro",
       "folha": 6386277.86,
-      "contratos": 1404747.79,
+      "contratos": 1229764.63,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9345135.08
+      "total": 9170151.92
     },
     {
       "mes_num": 11,
       "mes_nome": "Novembro",
       "folha": 6386277.86,
-      "contratos": 1369991.73,
+      "contratos": 1195008.57,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 9310379.02
+      "total": 9135395.86
     },
     {
       "mes_num": 12,
       "mes_nome": "Dezembro",
       "folha": 10028664.25,
-      "contratos": 1247103.51,
+      "contratos": 1072120.35,
       "auxilio": 1054109.43,
       "ingesp": 500000.0,
-      "total": 12829877.19
+      "total": 12654894.03
     }
   ],
   "contratos_por_setor": [
     {
       "setor": "DEPARTAMENTO MUNICIPAL DE EDUCAÇÃO",
-      "valor": 7353913.35
+      "valor": 5774015.43
     },
     {
       "setor": "DEPARTAMENTO DE ADMINISTRAÇÃO GERAL",
@@ -133,7 +133,7 @@
     },
     {
       "setor": "DEPARTAMENTO MUNICIPAL DE SAÚDE",
-      "valor": 2140137.76
+      "valor": 1761637.76
     },
     {
       "setor": "DEPARTAMENTO MUNICIPAL DE TRANSPORTES E TRÂNSITO",
@@ -145,7 +145,7 @@
     },
     {
       "setor": "DEPARTAMENTO MUNICIPAL DE ASSISTÊNCIA E PROMOÇÃO SOCIAL",
-      "valor": 642578.79
+      "valor": 541178.79
     },
     {
       "setor": "DEPARTAMENTO MUNICIPAL DE ESPORTES E LAZER",
@@ -174,12 +174,12 @@
   ],
   "contratos_por_categoria": [
     {
-      "categoria": "FRETES E TRANSPORTES DE ENCOMENDAS",
-      "valor": 4224320.67
-    },
-    {
       "categoria": "TERMO DE COLABORAÇÃO",
       "valor": 3334999.99
+    },
+    {
+      "categoria": "FRETES E TRANSPORTES DE ENCOMENDAS",
+      "valor": 2644422.75
     },
     {
       "categoria": "SERVIÇOS DE ENERGIA ELÉTRICA",
@@ -202,16 +202,16 @@
       "valor": 869400.0
     },
     {
-      "categoria": "OUTRAS DESPESAS DE PESSOAL DECORRENTES DE CONTRATOS DE TERCE",
-      "valor": 770000.0
-    },
-    {
       "categoria": "CONTRATO DE GESTÃO",
       "valor": 502802.0
     },
     {
       "categoria": "COMBUSTÍVEIS E LUBRIFICANTES AUTOMOTIVOS",
       "valor": 439670.11
+    },
+    {
+      "categoria": "OUTRAS DESPESAS DE PESSOAL DECORRENTES DE CONTRATOS DE TERCE",
+      "valor": 420000.0
     },
     {
       "categoria": "LOCAÇÃO BENS MÓVEIS DE OUTRAS NATUREZAS E INTANGÍVEIS",
@@ -230,10 +230,6 @@
       "valor": 236050.87
     },
     {
-      "categoria": "TERMO DE FOMENTO",
-      "valor": 202800.0
-    },
-    {
       "categoria": "AMORTIZAÇÃO DA DÍVIDA CONTRATUAL",
       "valor": 201462.91
     },
@@ -250,6 +246,10 @@
       "valor": 111120.0
     },
     {
+      "categoria": "TERMO DE FOMENTO",
+      "valor": 101400.0
+    },
+    {
       "categoria": "LOCAÇÃO DE IMÓVEIS",
       "valor": 80737.2
     },
@@ -258,16 +258,16 @@
       "valor": 46000.0
     },
     {
-      "categoria": "OUTROS SERVIÇOS DE PESSOA FÍSICA",
-      "valor": 41500.0
-    },
-    {
       "categoria": "ASSINATURAS DE PERIÓDICOS E ANUIDADES",
       "valor": 36989.6
     },
     {
       "categoria": "MANUTENÇÃO E CONSERVAÇÃO DE MÁQUINAS E EQUIPAMENTOS",
       "valor": 34089.0
+    },
+    {
+      "categoria": "OUTROS SERVIÇOS DE PESSOA FÍSICA",
+      "valor": 13000.0
     }
   ],
   "contratos": [
@@ -294,31 +294,6 @@
         250000.0,
         250000.0,
         250000.0
-      ]
-    },
-    {
-      "empenho": "173",
-      "contrato": "0038/23",
-      "fornecedor": "VIACAO RIO GRANDE LTDA",
-      "historico": "EMPENHO ESTIMATIVO REFERENTE A PRESTAÇÃO DE SERVICO DE TRANSPORTE DE ALUNOS DO ENSINO FUNDAMENTAL DA ZONA RURAL E BAIRROS PERIFERICOS PARA AS ESCOLAS DO MUNICÍPIO RECURSO QESE **ATÉ O Mês (08/2026)",
-      "setor": "DEPARTAMENTO MUNICIPAL DE EDUCAÇÃO",
-      "categoria": "FRETES E TRANSPORTES DE ENCOMENDAS",
-      "ficha": "73",
-      "valor_anual": 1379897.92,
-      "valor_mensal": 114991.49,
-      "cronograma": [
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.49,
-        114991.53
       ]
     },
     {
@@ -547,31 +522,6 @@
       ]
     },
     {
-      "empenho": "204",
-      "contrato": "0042/22",
-      "fornecedor": "T.E.M. EMERGENCIAS MEDICAS LTDA.",
-      "historico": "EMPENHO ESTIMATIVO REFERENTE A PRESTAÇÃO DE SERVIÇO DO SAMU - RECURSO FEDERAL",
-      "setor": "DEPARTAMENTO MUNICIPAL DE SAÚDE",
-      "categoria": "OUTRAS DESPESAS DE PESSOAL DECORRENTES DE CONTRATOS DE TERCE",
-      "ficha": "183",
-      "valor_anual": 350000.0,
-      "valor_mensal": 29166.67,
-      "cronograma": [
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.67,
-        29166.63
-      ]
-    },
-    {
       "empenho": "2835",
       "contrato": "0013/22",
       "fornecedor": "ASSOCIACAO DE ASSISTENCIA E DESENVOLVIMENTO PROFIS",
@@ -794,31 +744,6 @@
         20000.0,
         0.0,
         0.0
-      ]
-    },
-    {
-      "empenho": "2096",
-      "contrato": "0038/23",
-      "fornecedor": "VIACAO RIO GRANDE LTDA",
-      "historico": "CORREÇÃO DO EMPENHO 1792 - CONTRATAÇÃO DE EMPRESA PARA TRANSPORTE DE ALUNOS DO ENSINO MÉDIO DA ZONA RURAL PARA AS ESCOLAS DO MUNICIPIO.",
-      "setor": "DEPARTAMENTO MUNICIPAL DE EDUCAÇÃO",
-      "categoria": "FRETES E TRANSPORTES DE ENCOMENDAS",
-      "ficha": "377",
-      "valor_anual": 200000.0,
-      "valor_mensal": 16666.67,
-      "cronograma": [
-        0.0,
-        0.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0,
-        20000.0
       ]
     },
     {
@@ -1179,31 +1104,6 @@
       "setor": "DEPARTAMENTO MUNICIPAL DE ASSISTÊNCIA E PROMOÇÃO SOCIAL",
       "categoria": "TERMO DE FOMENTO",
       "ficha": "265",
-      "valor_anual": 101400.0,
-      "valor_mensal": 8450.0,
-      "cronograma": [
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0,
-        8450.0
-      ]
-    },
-    {
-      "empenho": "2630",
-      "contrato": "Empenho 2630",
-      "fornecedor": "INSTITUTO ACOLHER ASSISTENCIA SOCIAL",
-      "historico": "1826 - CORREÇÃO DO EMPENHO => REFERENTE A REPASSE CONFORME TERMO DE FOMENTO 01/2023 EM SEU 3º ADITIVO, PARA O DESENVOLVIMENTO EM PRADOPOLIS DAS ATIVIDADES DO PROGRAMA PRIMEIRA INFANCIA NO SUAS/PROGRAMA CRIANCA FELIZ.",
-      "setor": "DEPARTAMENTO MUNICIPAL DE ASSISTÊNCIA E PROMOÇÃO SOCIAL",
-      "categoria": "TERMO DE FOMENTO",
-      "ficha": "378",
       "valor_anual": 101400.0,
       "valor_mensal": 8450.0,
       "cronograma": [
@@ -2119,31 +2019,6 @@
         0.0,
         0.0,
         0.0
-      ]
-    },
-    {
-      "empenho": "629",
-      "contrato": "Empenho 629",
-      "fornecedor": "CAMPANHA E CONTROLE CONTRA A DENGUE",
-      "historico": "CUSTEIO DE ETAPAS NO VALOR DE R$ 100,00 CADA MEMBRO DA EQUIPE QUE TRABALHOU NO ARRASTÃO DE VISTORIAS DOMICILIARES PARA ELIMINAÇÃO DE CRIADOUROS DO MOSQUITO AEDES AEGYPTI AOS SABADOS - JANEIRO A MAIO",
-      "setor": "DEPARTAMENTO MUNICIPAL DE SAÚDE",
-      "categoria": "OUTROS SERVIÇOS DE PESSOA FÍSICA",
-      "ficha": "349",
-      "valor_anual": 28500.0,
-      "valor_mensal": 2375.0,
-      "cronograma": [
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0,
-        2375.0
       ]
     },
     {
